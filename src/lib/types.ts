@@ -1,28 +1,32 @@
 // ─── Core DB Types ────────────────────────────────────────────────────────────
 
-export type TagType = 'help' | 'learn';
+export type TagCategory = 'help' | 'learn';
 
 export interface Tag {
   id: string;
-  name: string;
-  type: TagType;
-  created_at: string;
+  user_id: string;
+  category: TagCategory;
+  label: string;
 }
 
 export interface Profile {
   id: string;                   // UUID, references auth.users
-  name: string;
+  name: string | null;
   email: string;
   bio: string | null;
   avatar_url: string | null;
   linkedin_url: string | null;
+  company: string | null;
+  role: string | null;
   city: string | null;
   country: string | null;
   latitude: number | null;
   longitude: number | null;
-  is_onboarded: boolean;
+  timezone: string | null;
+  onboarded: boolean;
+  roulette_opt_in: boolean;
   created_at: string;
-  updated_at: string;
+  last_active: string;
 }
 
 export interface Match {
@@ -67,6 +71,8 @@ export interface Invite {
 
 export interface ProfileWithTags extends Profile {
   tags: Tag[];
+  helpTags: string[];   // derived: tags where category === 'help'
+  learnTags: string[];  // derived: tags where category === 'learn'
 }
 
 export interface MatchWithProfiles extends Match {
