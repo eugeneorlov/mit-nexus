@@ -34,7 +34,7 @@ export function OnboardGuard() {
     return <Navigate to="/" replace />;
   }
 
-  if (!profile?.is_onboarded) {
+  if (!profile?.onboarded) {
     return <Navigate to="/onboard" replace />;
   }
 
