@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import StepBasics from '@/components/onboarding/StepBasics';
 import type { StepBasicsData } from '@/components/onboarding/StepBasics';
+import StepTags from '@/components/onboarding/StepTags';
+import type { StepTagsData } from '@/components/onboarding/StepTags';
 
 const TOTAL_STEPS = 3;
 
@@ -18,11 +20,18 @@ const defaultBasics: StepBasicsData = {
   avatarPreviewUrl: null,
 };
 
+const defaultTags: StepTagsData = {
+  helpTags: [],
+  learnTags: [],
+};
+
 export default function Onboarding() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [basics, setBasics] = useState<StepBasicsData>(defaultBasics);
   const [basicsErrors, setBasicsErrors] = useState<Partial<Record<keyof StepBasicsData, string>>>({});
+  const [tags, setTags] = useState<StepTagsData>(defaultTags);
+  const [tagsErrors, setTagsErrors] = useState<Partial<Record<keyof StepTagsData, string>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -35,8 +44,17 @@ export default function Onboarding() {
     return Object.keys(errs).length === 0;
   }
 
+  function validateTags(): boolean {
+    const errs: typeof tagsErrors = {};
+    if (tags.helpTags.length === 0) errs.helpTags = 'Select at least 1 tag.';
+    if (tags.learnTags.length === 0) errs.learnTags = 'Select at least 1 tag.';
+    setTagsErrors(errs);
+    return Object.keys(errs).length === 0;
+  }
+
   function handleNext() {
     if (step === 1 && !validateBasics()) return;
+    if (step === 2 && !validateTags()) return;
     setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   }
 
@@ -46,6 +64,7 @@ export default function Onboarding() {
 
   async function handleSubmit() {
     if (step === 1 && !validateBasics()) return;
+    if (step === 2 && !validateTags()) return;
     setSubmitting(true);
     setSubmitError(null);
 
@@ -83,6 +102,19 @@ export default function Onboarding() {
         });
 
       if (upsertError) throw upsertError;
+
+      // Delete existing tags then insert new ones
+      await supabase.from('tags').delete().eq('user_id', user.id);
+
+      const tagRows = [
+        ...tags.helpTags.map((label) => ({ user_id: user.id, category: 'help' as const, label })),
+        ...tags.learnTags.map((label) => ({ user_id: user.id, category: 'learn' as const, label })),
+      ];
+
+      if (tagRows.length > 0) {
+        const { error: tagsError } = await supabase.from('tags').insert(tagRows);
+        if (tagsError) throw tagsError;
+      }
 
       navigate('/dashboard');
     } catch (err) {
@@ -134,10 +166,7 @@ export default function Onboarding() {
           )}
 
           {step === 2 && (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-400 gap-2">
-              <span className="text-4xl">🏷️</span>
-              <p className="text-sm">Tags & interests — coming soon</p>
-            </div>
+            <StepTags data={tags} onChange={setTags} errors={tagsErrors} />
           )}
 
           {step === 3 && (
