@@ -79,7 +79,7 @@ CREATE INDEX idx_tags_category_label ON tags(category, label);
 CREATE INDEX idx_messages_conversation ON messages(sender_id, receiver_id, created_at DESC);
 CREATE INDEX idx_messages_receiver_unread ON messages(receiver_id, read_at) WHERE read_at IS NULL;
 CREATE INDEX idx_matches_users ON matches(user_a_id, user_b_id, year, week_number);
-CREATE INDEX idx_trips_active ON trips(date_to) WHERE date_to >= CURRENT_DATE;
+CREATE INDEX idx_trips_active ON trips(date_to);
 CREATE INDEX idx_profiles_onboarded ON profiles(onboarded) WHERE onboarded = TRUE;
 
 -- Enable Realtime on messages table
