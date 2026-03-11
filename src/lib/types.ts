@@ -13,11 +13,11 @@ export interface Profile {
   id: string;                   // UUID, references auth.users
   name: string | null;
   email: string;
+  company: string | null;
+  role: string | null;
   bio: string | null;
   avatar_url: string | null;
   linkedin_url: string | null;
-  company: string | null;
-  role: string | null;
   city: string | null;
   country: string | null;
   latitude: number | null;
