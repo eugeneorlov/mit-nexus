@@ -7,6 +7,8 @@ import StepBasics from '@/components/onboarding/StepBasics';
 import type { StepBasicsData } from '@/components/onboarding/StepBasics';
 import StepTags from '@/components/onboarding/StepTags';
 import type { StepTagsData } from '@/components/onboarding/StepTags';
+import StepLocation from '@/components/onboarding/StepLocation';
+import type { StepLocationData } from '@/components/onboarding/StepLocation';
 
 const TOTAL_STEPS = 3;
 
@@ -25,6 +27,21 @@ const defaultTags: StepTagsData = {
   learnTags: [],
 };
 
+const defaultLocation: StepLocationData = {
+  city: '',
+  country: '',
+  latitude: null,
+  longitude: null,
+  isTraveling: false,
+  tripCity: '',
+  tripCountry: '',
+  tripLatitude: null,
+  tripLongitude: null,
+  tripStartDate: '',
+  tripEndDate: '',
+  tripNote: '',
+};
+
 export default function Onboarding() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -32,6 +49,8 @@ export default function Onboarding() {
   const [basicsErrors, setBasicsErrors] = useState<Partial<Record<keyof StepBasicsData, string>>>({});
   const [tags, setTags] = useState<StepTagsData>(defaultTags);
   const [tagsErrors, setTagsErrors] = useState<Partial<Record<keyof StepTagsData, string>>>({});
+  const [location, setLocation] = useState<StepLocationData>(defaultLocation);
+  const [locationErrors, setLocationErrors] = useState<Partial<Record<keyof StepLocationData, string>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -52,6 +71,24 @@ export default function Onboarding() {
     return Object.keys(errs).length === 0;
   }
 
+  function validateLocation(): boolean {
+    const errs: typeof locationErrors = {};
+    if (location.isTraveling) {
+      if (!location.tripCity) errs.tripCity = 'Select a destination city.';
+      if (!location.tripStartDate) errs.tripStartDate = 'Start date is required.';
+      if (!location.tripEndDate) errs.tripEndDate = 'End date is required.';
+      if (
+        location.tripStartDate &&
+        location.tripEndDate &&
+        location.tripEndDate < location.tripStartDate
+      ) {
+        errs.tripEndDate = 'End date must be after start date.';
+      }
+    }
+    setLocationErrors(errs);
+    return Object.keys(errs).length === 0;
+  }
+
   function handleNext() {
     if (step === 1 && !validateBasics()) return;
     if (step === 2 && !validateTags()) return;
@@ -63,8 +100,7 @@ export default function Onboarding() {
   }
 
   async function handleSubmit() {
-    if (step === 1 && !validateBasics()) return;
-    if (step === 2 && !validateTags()) return;
+    if (!validateLocation()) return;
     setSubmitting(true);
     setSubmitError(null);
 
@@ -72,8 +108,8 @@ export default function Onboarding() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
+      // Upload avatar if provided
       let avatarUrl: string | null = null;
-
       if (basics.avatarFile) {
         const ext = basics.avatarFile.name.split('.').pop() ?? 'jpg';
         const path = `${user.id}/avatar.${ext}`;
@@ -88,6 +124,10 @@ export default function Onboarding() {
         avatarUrl = publicData.publicUrl;
       }
 
+      // Auto-detect timezone
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      // Upsert profile with all data from all 3 steps
       const { error: upsertError } = await supabase
         .from('profiles')
         .upsert({
@@ -98,6 +138,11 @@ export default function Onboarding() {
           bio: basics.bio.trim() || null,
           linkedin_url: basics.linkedinUrl.trim() || null,
           avatar_url: avatarUrl,
+          city: location.city || null,
+          country: location.country || null,
+          latitude: location.latitude,
+          longitude: location.longitude,
+          timezone,
           onboarded: true,
         });
 
@@ -114,6 +159,25 @@ export default function Onboarding() {
       if (tagRows.length > 0) {
         const { error: tagsError } = await supabase.from('tags').insert(tagRows);
         if (tagsError) throw tagsError;
+      }
+
+      // Insert trip if user is traveling
+      if (
+        location.isTraveling &&
+        location.tripCity &&
+        location.tripStartDate &&
+        location.tripEndDate
+      ) {
+        const { error: tripError } = await supabase.from('trips').insert({
+          user_id: user.id,
+          city: location.tripCity,
+          country: location.tripCountry,
+          latitude: location.tripLatitude,
+          longitude: location.tripLongitude,
+          start_date: location.tripStartDate,
+          end_date: location.tripEndDate,
+        });
+        if (tripError) throw tripError;
       }
 
       navigate('/dashboard');
@@ -156,7 +220,7 @@ export default function Onboarding() {
           <p className="text-sm text-gray-500 mt-1">
             {step === 1 && 'Tell us about yourself so your cohort can find you.'}
             {step === 2 && 'What can you help with, and what do you want to learn?'}
-            {step === 3 && 'Where are you based, and when are you available?'}
+            {step === 3 && 'Where are you based? Let your cohort know when you\'re nearby.'}
           </p>
         </CardHeader>
 
@@ -170,10 +234,7 @@ export default function Onboarding() {
           )}
 
           {step === 3 && (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-400 gap-2">
-              <span className="text-4xl">📍</span>
-              <p className="text-sm">Location & availability — coming soon</p>
-            </div>
+            <StepLocation data={location} onChange={setLocation} errors={locationErrors} />
           )}
 
           {submitError && (
@@ -195,9 +256,9 @@ export default function Onboarding() {
             <Button
               onClick={handleSubmit}
               disabled={submitting}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white min-w-[100px]"
+              className="bg-[#F59E0B] hover:bg-[#D97706] text-white min-w-[140px]"
             >
-              {submitting ? 'Saving…' : 'Finish'}
+              {submitting ? 'Saving…' : 'Complete Profile'}
             </Button>
           ) : (
             <Button
