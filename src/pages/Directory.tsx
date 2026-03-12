@@ -36,7 +36,7 @@ function SkeletonCard() {
 function buildProfileWithTags(raw: { tags: Tag[] } & Record<string, unknown>): ProfileWithTags {
   const tags: Tag[] = raw.tags ?? [];
   return {
-    ...(raw as ProfileWithTags),
+    ...(raw as unknown as ProfileWithTags),
     tags,
     helpTags: tags.filter((t) => t.category === 'help').map((t) => t.label),
     learnTags: tags.filter((t) => t.category === 'learn').map((t) => t.label),
