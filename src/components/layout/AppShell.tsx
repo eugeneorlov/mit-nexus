@@ -11,6 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/AuthContext';
+import { useConversations } from '@/hooks/useMessages';
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -20,6 +21,8 @@ const navItems = [
 ];
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
+  const { unreadTotal } = useConversations();
+
   return (
     <>
       {navItems.map(({ to, label, icon: Icon }) => (
@@ -37,9 +40,9 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
         >
           <Icon size={18} />
           <span>{label}</span>
-          {label === 'Messages' && (
+          {label === 'Messages' && unreadTotal > 0 && (
             <Badge className="ml-auto h-5 min-w-[20px] flex items-center justify-center bg-[#F59E0B] text-white text-xs px-1">
-              0
+              {unreadTotal}
             </Badge>
           )}
         </NavLink>
