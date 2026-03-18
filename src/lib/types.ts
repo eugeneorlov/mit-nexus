@@ -40,10 +40,19 @@ export interface Match {
 
 export interface Message {
   id: string;
-  match_id: string;             // UUID ref to matches
   sender_id: string;            // UUID ref to profiles
+  receiver_id: string;          // UUID ref to profiles
   content: string;
   created_at: string;
+  read_at: string | null;
+}
+
+export interface Conversation {
+  partnerId: string;
+  partnerProfile: Profile;
+  lastMessage: Message;
+  unreadCount: number;
+  updatedAt: string;
 }
 
 export interface Trip {
