@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import type { ProfileWithTags, Tag, Trip } from '@/lib/types';
 
@@ -10,12 +10,16 @@ interface UseMapDataReturn {
   homeProfiles: ProfileWithTags[];
   activeTrips: TripWithProfile[];
   loading: boolean;
+  refetch: () => void;
 }
 
 export function useMapData(): UseMapDataReturn {
   const [homeProfiles, setHomeProfiles] = useState<ProfileWithTags[]>([]);
   const [activeTrips, setActiveTrips] = useState<TripWithProfile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tick, setTick] = useState(0);
+
+  const refetch = useCallback(() => setTick((t) => t + 1), []);
 
   useEffect(() => {
     async function fetchData() {
@@ -59,12 +63,12 @@ export function useMapData(): UseMapDataReturn {
 
       setHomeProfiles(profilesWithTags);
 
-      // Fetch active trips (end_date >= today) with coordinates
+      // Fetch active trips (date_to >= today) with coordinates
       const today = new Date().toISOString().split('T')[0];
       const { data: trips } = await supabase
         .from('trips')
         .select('*')
-        .gte('end_date', today)
+        .gte('date_to', today)
         .not('latitude', 'is', null)
         .not('longitude', 'is', null);
 
@@ -74,13 +78,15 @@ export function useMapData(): UseMapDataReturn {
           .filter((t) => profileMap[t.user_id])
           .map((t) => ({ ...t, profile: profileMap[t.user_id] }));
         setActiveTrips(tripsWithProfile);
+      } else {
+        setActiveTrips([]);
       }
 
       setLoading(false);
     }
 
     fetchData();
-  }, []);
+  }, [tick]);
 
-  return { homeProfiles, activeTrips, loading };
+  return { homeProfiles, activeTrips, loading, refetch };
 }

@@ -62,8 +62,9 @@ export interface Trip {
   country: string;
   latitude: number | null;
   longitude: number | null;
-  start_date: string;           // ISO date string
-  end_date: string;             // ISO date string
+  date_from: string;            // ISO date string
+  date_to: string;              // ISO date string
+  note: string | null;
   created_at: string;
 }
 

@@ -253,7 +253,7 @@ function TripRow({ trip, onDelete }: TripRowProps) {
           {[trip.city, trip.country].filter(Boolean).join(', ')}
         </p>
         <p className="text-xs text-gray-400 mt-0.5">
-          {trip.start_date} → {trip.end_date}
+          {trip.date_from} → {trip.date_to}
         </p>
       </div>
       <button
@@ -302,8 +302,8 @@ function AddTripForm({ userId, onAdded, onCancel }: AddTripFormProps) {
           country: destination!.country,
           latitude: destination!.latitude,
           longitude: destination!.longitude,
-          start_date: startDate,
-          end_date: endDate,
+          date_from: startDate,
+          date_to: endDate,
         })
         .select()
         .single();
@@ -433,8 +433,8 @@ export default function ProfileEdit() {
       .from('trips')
       .select('*')
       .eq('user_id', user.id)
-      .gte('end_date', new Date().toISOString().slice(0, 10))
-      .order('start_date', { ascending: true })
+      .gte('date_to', new Date().toISOString().slice(0, 10))
+      .order('date_from', { ascending: true })
       .then(({ data }) => {
         setTrips((data as Trip[]) ?? []);
         setTripsLoading(false);
