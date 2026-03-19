@@ -69,13 +69,13 @@ export function ProfileCard({ profile, compact = false }: ProfileCardProps) {
               {profile.avatar_url ? (
                 <AvatarImage src={profile.avatar_url} alt={profile.name ?? ''} />
               ) : null}
-              <AvatarFallback className="bg-[#1E293B] text-white text-sm">
+              <AvatarFallback className="bg-brand-navy-light text-white text-sm">
                 {initials}
               </AvatarFallback>
             </Avatar>
 
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[#1E293B] text-sm truncate">
+              <p className="font-semibold text-brand-navy-light text-sm truncate">
                 {profile.name ?? 'Unknown'}
               </p>
               {profile.company && (
@@ -107,7 +107,7 @@ export function ProfileCard({ profile, compact = false }: ProfileCardProps) {
 
           <Button
             size="sm"
-            className="w-full mt-3 bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs h-8"
+            className="w-full mt-3 bg-brand-gold hover:bg-brand-gold-hover text-white text-xs h-8"
             onClick={() => navigate(`/messages/${profile.id}`)}
           >
             Message
@@ -125,17 +125,17 @@ export function ProfileCard({ profile, compact = false }: ProfileCardProps) {
     <Card className="w-full hover:shadow-md transition-shadow">
       <CardContent className="p-5">
         <div className="flex items-start gap-4">
-          <Avatar className="h-14 w-14 flex-shrink-0 ring-2 ring-[#F59E0B] ring-offset-2">
+          <Avatar className="h-14 w-14 flex-shrink-0 ring-2 ring-brand-gold ring-offset-2">
             {profile.avatar_url ? (
               <AvatarImage src={profile.avatar_url} alt={profile.name ?? ''} />
             ) : null}
-            <AvatarFallback className="bg-[#1E293B] text-white text-lg">
+            <AvatarFallback className="bg-brand-navy-light text-white text-lg">
               {initials}
             </AvatarFallback>
           </Avatar>
 
           <div className="flex-1 min-w-0">
-            <p className="font-bold text-[#1E293B] text-base leading-tight">
+            <p className="font-bold text-brand-navy-light text-base leading-tight">
               {profile.name ?? 'Unknown'}
             </p>
 
@@ -187,7 +187,7 @@ export function ProfileCard({ profile, compact = false }: ProfileCardProps) {
           <Button
             variant="outline"
             size="sm"
-            className="w-full mt-4 text-[#1E293B] border-[#1E293B] hover:bg-[#1E293B] hover:text-white text-xs h-8 transition-colors"
+            className="w-full mt-4 text-brand-navy-light border-[#1E293B] hover:bg-brand-navy-light hover:text-white text-xs h-8 transition-colors"
           >
             View Profile
           </Button>

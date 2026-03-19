@@ -7,7 +7,7 @@ export function AuthGuard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB]">
-        <div className="text-[#1E293B] text-sm">Loading…</div>
+        <div className="text-brand-navy-light text-sm">Loading…</div>
       </div>
     );
   }
@@ -25,7 +25,7 @@ export function OnboardGuard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB]">
-        <div className="text-[#1E293B] text-sm">Loading…</div>
+        <div className="text-brand-navy-light text-sm">Loading…</div>
       </div>
     );
   }

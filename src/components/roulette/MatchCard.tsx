@@ -88,8 +88,8 @@ export function MatchCard() {
     return (
       <Card className="border border-gray-200">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
-            <Coffee size={18} className="text-[#F59E0B]" />
+          <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
+            <Coffee size={18} className="text-brand-gold" />
             Coffee Roulette
           </CardTitle>
         </CardHeader>
@@ -109,8 +109,8 @@ export function MatchCard() {
   return (
     <Card className="border border-gray-200">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
-          <Coffee size={18} className="text-[#F59E0B]" />
+        <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
+          <Coffee size={18} className="text-brand-gold" />
           Your match this week
         </CardTitle>
       </CardHeader>
@@ -121,10 +121,10 @@ export function MatchCard() {
             {otherProfile.avatar_url && (
               <AvatarImage src={otherProfile.avatar_url} alt={otherProfile.name ?? ''} />
             )}
-            <AvatarFallback className="bg-[#1E293B] text-white">{initials}</AvatarFallback>
+            <AvatarFallback className="bg-brand-navy-light text-white">{initials}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-[#1E293B] text-sm">{otherProfile.name ?? 'Unknown'}</p>
+            <p className="font-semibold text-brand-navy-light text-sm">{otherProfile.name ?? 'Unknown'}</p>
             {(otherProfile.role || otherProfile.company) && (
               <p className="text-xs text-gray-500 truncate">
                 {[otherProfile.role, otherProfile.company].filter(Boolean).join(' @ ')}
@@ -146,7 +146,7 @@ export function MatchCard() {
               {sharedTags.map((tag) => (
                 <Badge
                   key={tag}
-                  className="text-xs px-2.5 py-0.5 bg-amber-50 text-amber-700 border-amber-200 border"
+                  className="text-xs px-2.5 py-0.5 bg-brand-gold-subtle text-brand-gold border-brand-gold/30 border"
                 >
                   {tag}
                 </Badge>
@@ -172,7 +172,7 @@ export function MatchCard() {
         <div className="flex gap-2 flex-wrap">
           <Button
             size="sm"
-            className="bg-[#F59E0B] hover:bg-[#D97706] text-white text-xs h-8"
+            className="bg-brand-gold hover:bg-brand-gold-hover text-white text-xs h-8"
             onClick={() => navigate(`/messages/${otherProfile.id}`)}
           >
             Send a message

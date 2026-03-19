@@ -6,7 +6,7 @@ export default function FinalCTASection() {
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl md:text-5xl font-bold text-white">
           Ready to find your{' '}
-          <em className="italic text-amber-400">people?</em>
+          <em className="italic text-brand-gold">people?</em>
         </h2>
         <p className="text-lg text-slate-400 mt-4">
           Join the cohort network. It takes two minutes.

@@ -24,7 +24,7 @@ export default function HowItWorksSection() {
         <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white">
             Up and running in{' '}
-            <em className="italic text-amber-400">two minutes</em>
+            <em className="italic text-brand-gold">two minutes</em>
           </h2>
         </div>
 
@@ -32,7 +32,7 @@ export default function HowItWorksSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16 max-w-4xl mx-auto">
           {steps.map((step) => (
             <div key={step.number} className="flex flex-col">
-              <span className="text-5xl font-bold text-amber-400/30 leading-none">
+              <span className="text-5xl font-bold text-brand-gold/30 leading-none">
                 {step.number}
               </span>
               <h3 className="text-lg font-semibold text-white mt-4">

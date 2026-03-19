@@ -133,7 +133,7 @@ export function AddTripModal({ onTripAdded }: AddTripModalProps) {
     <>
       <Button
         onClick={() => setOpen(true)}
-        className="bg-[#F59E0B] hover:bg-[#D97706] text-white shadow-lg gap-2"
+        className="bg-brand-gold hover:bg-brand-gold-hover text-white shadow-lg gap-2"
         size="sm"
       >
         <PlusCircle className="h-4 w-4" />
@@ -149,7 +149,7 @@ export function AddTripModal({ onTripAdded }: AddTripModalProps) {
           <div className="space-y-4 pt-2">
             {/* City autocomplete */}
             <div className="space-y-1.5" ref={cityContainerRef}>
-              <Label htmlFor="trip-city" className="text-[#1E293B] font-medium text-sm">
+              <Label htmlFor="trip-city" className="text-brand-navy-light font-medium text-sm">
                 Destination
               </Label>
               <div className="relative">
@@ -189,7 +189,7 @@ export function AddTripModal({ onTripAdded }: AddTripModalProps) {
             {/* Date range */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label htmlFor="trip-date-from" className="text-[#1E293B] font-medium text-sm">From</Label>
+                <Label htmlFor="trip-date-from" className="text-brand-navy-light font-medium text-sm">From</Label>
                 <Input
                   id="trip-date-from"
                   type="date"
@@ -200,7 +200,7 @@ export function AddTripModal({ onTripAdded }: AddTripModalProps) {
                 {errors.dateFrom && <p className="text-xs text-red-500">{errors.dateFrom}</p>}
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="trip-date-to" className="text-[#1E293B] font-medium text-sm">To</Label>
+                <Label htmlFor="trip-date-to" className="text-brand-navy-light font-medium text-sm">To</Label>
                 <Input
                   id="trip-date-to"
                   type="date"
@@ -215,7 +215,7 @@ export function AddTripModal({ onTripAdded }: AddTripModalProps) {
 
             {/* Note */}
             <div className="space-y-1.5">
-              <Label htmlFor="trip-note" className="text-[#1E293B] font-medium text-sm">
+              <Label htmlFor="trip-note" className="text-brand-navy-light font-medium text-sm">
                 Note <span className="text-gray-400 font-normal">(optional)</span>
               </Label>
               <Textarea
@@ -242,7 +242,7 @@ export function AddTripModal({ onTripAdded }: AddTripModalProps) {
               <Button
                 type="button"
                 size="sm"
-                className="bg-[#F59E0B] hover:bg-[#D97706] text-white"
+                className="bg-brand-gold hover:bg-brand-gold-hover text-white"
                 onClick={handleSubmit}
                 disabled={saving}
               >

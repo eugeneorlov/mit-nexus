@@ -50,7 +50,7 @@ export default function EmailSignInForm({ variant = 'hero' }: EmailSignInFormPro
           required
           className={`
             w-full px-4 py-3 text-base bg-white/10 text-white placeholder:text-slate-400
-            border border-white/20 focus:outline-none focus:border-amber-400
+            border border-white/20 focus:outline-none focus:border-brand-gold
             sm:rounded-l-xl sm:rounded-r-none rounded-xl
             ${variant === 'cta' ? 'bg-white/5' : ''}
           `}
@@ -59,10 +59,10 @@ export default function EmailSignInForm({ variant = 'hero' }: EmailSignInFormPro
           type="submit"
           disabled={loading}
           className="
-            px-6 py-3 bg-amber-500 hover:bg-amber-600 text-navy font-semibold text-base
+            px-6 py-3 bg-brand-gold hover:bg-brand-gold-hover text-navy font-semibold text-base
             sm:rounded-r-xl sm:rounded-l-none rounded-xl whitespace-nowrap
             transition-colors duration-200 disabled:opacity-70
-            text-[#1E293B]
+            text-brand-navy-light
           "
         >
           {loading ? 'Sending...' : 'Get Started'}

@@ -9,10 +9,10 @@ const travelIcon = L.divIcon({
   html: `<div class="travel-pin-pulse" style="
     width: 18px;
     height: 18px;
-    background-color: #F59E0B;
+    background-color: #C9A84C;
     border: 2.5px solid white;
     border-radius: 50%;
-    box-shadow: 0 1px 6px rgba(245,158,11,0.6);
+    box-shadow: 0 1px 6px rgba(201,168,76,0.6);
   "></div>`,
   iconSize: [18, 18],
   iconAnchor: [9, 9],
@@ -34,7 +34,7 @@ export function TravelPin({ trip }: TravelPinProps) {
       <Popup minWidth={220} maxWidth={260} className="map-profile-popup">
         <div style={{ fontFamily: 'inherit', padding: '4px' }}>
           <div style={{ marginBottom: '6px' }}>
-            <p className="font-semibold text-[#1E293B] text-sm leading-tight">
+            <p className="font-semibold text-brand-navy-light text-sm leading-tight">
               {profile.name ?? 'Unknown'}
             </p>
             {profile.company && (
@@ -43,7 +43,7 @@ export function TravelPin({ trip }: TravelPinProps) {
           </div>
 
           <div style={{ marginBottom: '8px' }}>
-            <p className="text-xs text-amber-600 font-medium">
+            <p className="text-xs text-brand-gold font-medium">
               {[trip.city, trip.country].filter(Boolean).join(', ')}
             </p>
             <p className="text-xs text-gray-400 mt-0.5">
@@ -52,14 +52,14 @@ export function TravelPin({ trip }: TravelPinProps) {
           </div>
 
           {trip.note && (
-            <p className="text-xs text-gray-600 italic mb-8px border-l-2 border-amber-300 pl-2 mb-2">
+            <p className="text-xs text-gray-600 italic mb-8px border-l-2 border-brand-gold/40 pl-2 mb-2">
               {trip.note}
             </p>
           )}
 
           <Button
             size="sm"
-            className="w-full text-xs h-7 bg-[#F59E0B] hover:bg-[#D97706] text-white"
+            className="w-full text-xs h-7 bg-brand-gold hover:bg-brand-gold-hover text-white"
             onClick={() => navigate(`/messages/${profile.id}`)}
           >
             Send Message

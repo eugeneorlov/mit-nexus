@@ -98,7 +98,7 @@ function CitySearch({ id, label, placeholder, selected, onSelect, error }: CityS
 
   return (
     <div className="space-y-1.5" ref={containerRef}>
-      <Label htmlFor={id} className="text-[#1E293B] font-medium text-sm">{label}</Label>
+      <Label htmlFor={id} className="text-brand-navy-light font-medium text-sm">{label}</Label>
       <div className="relative">
         <Input
           id={id}
@@ -249,7 +249,7 @@ function TripRow({ trip, onDelete }: TripRowProps) {
   return (
     <div className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-gray-50 border border-gray-100">
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[#1E293B] truncate">
+        <p className="text-sm font-medium text-brand-navy-light truncate">
           {[trip.city, trip.country].filter(Boolean).join(', ')}
         </p>
         <p className="text-xs text-gray-400 mt-0.5">
@@ -318,7 +318,7 @@ function AddTripForm({ userId, onAdded, onCancel }: AddTripFormProps) {
   }
 
   return (
-    <div className="border border-[#F59E0B] rounded-lg p-4 space-y-3 bg-amber-50">
+    <div className="border border-brand-gold rounded-lg p-4 space-y-3 bg-brand-gold-subtle">
       <CitySearch
         id="new-trip-city"
         label="Destination"
@@ -329,7 +329,7 @@ function AddTripForm({ userId, onAdded, onCancel }: AddTripFormProps) {
       />
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1">
-          <Label htmlFor="new-trip-start" className="text-[#1E293B] font-medium text-sm">From</Label>
+          <Label htmlFor="new-trip-start" className="text-brand-navy-light font-medium text-sm">From</Label>
           <Input
             id="new-trip-start"
             type="date"
@@ -340,7 +340,7 @@ function AddTripForm({ userId, onAdded, onCancel }: AddTripFormProps) {
           {errors.startDate && <p className="text-xs text-red-500">{errors.startDate}</p>}
         </div>
         <div className="space-y-1">
-          <Label htmlFor="new-trip-end" className="text-[#1E293B] font-medium text-sm">To</Label>
+          <Label htmlFor="new-trip-end" className="text-brand-navy-light font-medium text-sm">To</Label>
           <Input
             id="new-trip-end"
             type="date"
@@ -359,7 +359,7 @@ function AddTripForm({ userId, onAdded, onCancel }: AddTripFormProps) {
           size="sm"
           disabled={saving}
           onClick={handleSave}
-          className="bg-[#F59E0B] hover:bg-[#D97706] text-white"
+          className="bg-brand-gold hover:bg-brand-gold-hover text-white"
         >
           {saving ? 'Saving…' : 'Add Trip'}
         </Button>
@@ -543,29 +543,29 @@ export default function ProfileEdit() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[#1E293B]">Edit Profile</h1>
+        <h1 className="text-2xl font-bold text-brand-navy-light">Edit Profile</h1>
       </div>
 
       {/* Basics */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1E293B]">Basic Info</CardTitle>
+          <CardTitle className="text-base text-brand-navy-light">Basic Info</CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
           {/* Avatar */}
           <div className="flex flex-col items-center gap-3">
-            <Avatar className="h-20 w-20 ring-2 ring-[#F59E0B] ring-offset-2">
+            <Avatar className="h-20 w-20 ring-2 ring-brand-gold ring-offset-2">
               {avatarPreview ? (
                 <AvatarImage src={avatarPreview} alt="Avatar" />
               ) : null}
-              <AvatarFallback className="bg-[#1E293B] text-white text-xl">
+              <AvatarFallback className="bg-brand-navy-light text-white text-xl">
                 {initials}
               </AvatarFallback>
             </Avatar>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#1E293B] transition-colors border border-dashed border-gray-300 hover:border-[#F59E0B] rounded-lg px-4 py-2"
+              className="flex items-center gap-2 text-sm text-gray-500 hover:text-brand-navy-light transition-colors border border-dashed border-gray-300 hover:border-brand-gold rounded-lg px-4 py-2"
             >
               <Upload className="h-4 w-4" />
               {avatarFile ? avatarFile.name : 'Change photo'}
@@ -583,7 +583,7 @@ export default function ProfileEdit() {
 
           {/* Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="ep-name" className="text-[#1E293B] font-medium">
+            <Label htmlFor="ep-name" className="text-brand-navy-light font-medium">
               Full Name <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -597,7 +597,7 @@ export default function ProfileEdit() {
 
           {/* Company */}
           <div className="space-y-1.5">
-            <Label htmlFor="ep-company" className="text-[#1E293B] font-medium">
+            <Label htmlFor="ep-company" className="text-brand-navy-light font-medium">
               Company <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -611,7 +611,7 @@ export default function ProfileEdit() {
 
           {/* Role */}
           <div className="space-y-1.5">
-            <Label htmlFor="ep-role" className="text-[#1E293B] font-medium">
+            <Label htmlFor="ep-role" className="text-brand-navy-light font-medium">
               Role / Title <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -625,7 +625,7 @@ export default function ProfileEdit() {
 
           {/* Bio */}
           <div className="space-y-1.5">
-            <Label htmlFor="ep-bio" className="text-[#1E293B] font-medium">Bio</Label>
+            <Label htmlFor="ep-bio" className="text-brand-navy-light font-medium">Bio</Label>
             <Textarea
               id="ep-bio"
               value={bio}
@@ -640,7 +640,7 @@ export default function ProfileEdit() {
 
           {/* LinkedIn */}
           <div className="space-y-1.5">
-            <Label htmlFor="ep-linkedin" className="text-[#1E293B] font-medium">
+            <Label htmlFor="ep-linkedin" className="text-brand-navy-light font-medium">
               LinkedIn URL <span className="text-gray-400 font-normal">(optional)</span>
             </Label>
             <Input
@@ -666,7 +666,7 @@ export default function ProfileEdit() {
       {/* Tags */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1E293B]">Expertise & Interests</CardTitle>
+          <CardTitle className="text-base text-brand-navy-light">Expertise & Interests</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <TagSection
@@ -693,12 +693,12 @@ export default function ProfileEdit() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base text-[#1E293B]">Upcoming Trips</CardTitle>
+            <CardTitle className="text-base text-brand-navy-light">Upcoming Trips</CardTitle>
             {!showAddTrip && (
               <button
                 type="button"
                 onClick={() => setShowAddTrip(true)}
-                className="flex items-center gap-1 text-sm text-[#F59E0B] hover:text-[#D97706] font-medium transition-colors"
+                className="flex items-center gap-1 text-sm text-brand-gold hover:text-brand-gold-hover font-medium transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 Add trip
@@ -746,7 +746,7 @@ export default function ProfileEdit() {
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="bg-[#F59E0B] hover:bg-[#D97706] text-white min-w-[120px]"
+          className="bg-brand-gold hover:bg-brand-gold-hover text-white min-w-[120px]"
         >
           {saving ? 'Saving…' : 'Save Changes'}
         </Button>

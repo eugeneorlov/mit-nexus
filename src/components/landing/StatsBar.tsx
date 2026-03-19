@@ -18,8 +18,8 @@ export default function StatsBar() {
                 ${i < stats.length - 1 ? 'md:border-r md:border-slate-700' : ''}
               `}
             >
-              <div className="bg-amber-500/10 rounded-lg px-6 py-3 inline-block">
-                <span className="text-4xl md:text-5xl font-bold text-amber-400">
+              <div className="bg-brand-gold-subtle rounded-lg px-6 py-3 inline-block">
+                <span className="text-4xl md:text-5xl font-bold text-brand-gold">
                   {stat.value}
                 </span>
               </div>

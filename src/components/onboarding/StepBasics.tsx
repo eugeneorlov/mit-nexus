@@ -59,11 +59,11 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
     <div className="space-y-6">
       {/* Avatar upload */}
       <div className="flex flex-col items-center gap-3">
-        <Avatar className="h-20 w-20 ring-2 ring-[#F59E0B] ring-offset-2">
+        <Avatar className="h-20 w-20 ring-2 ring-brand-gold ring-offset-2">
           {data.avatarPreviewUrl ? (
             <AvatarImage src={data.avatarPreviewUrl} alt="Avatar preview" />
           ) : (
-            <AvatarFallback className="bg-[#1E293B] text-white text-xl">
+            <AvatarFallback className="bg-brand-navy-light text-white text-xl">
               {initials || '?'}
             </AvatarFallback>
           )}
@@ -72,8 +72,8 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
         <div
           className={`flex cursor-pointer flex-col items-center gap-1 rounded-lg border-2 border-dashed px-6 py-4 transition-colors ${
             dragOver
-              ? 'border-[#F59E0B] bg-amber-50'
-              : 'border-gray-300 hover:border-[#F59E0B] hover:bg-amber-50'
+              ? 'border-brand-gold bg-brand-gold-subtle'
+              : 'border-gray-300 hover:border-brand-gold hover:bg-brand-gold-subtle'
           }`}
           onClick={() => fileInputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -97,7 +97,7 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
 
       {/* Name */}
       <div className="space-y-1.5">
-        <Label className="text-[#1E293B] font-medium" htmlFor="ob-name">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-name">
           Full Name <span className="text-red-500">*</span>
         </Label>
         <Input
@@ -112,7 +112,7 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
 
       {/* Company */}
       <div className="space-y-1.5">
-        <Label className="text-[#1E293B] font-medium" htmlFor="ob-company">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-company">
           Company / Organization <span className="text-red-500">*</span>
         </Label>
         <Input
@@ -127,7 +127,7 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
 
       {/* Role */}
       <div className="space-y-1.5">
-        <Label className="text-[#1E293B] font-medium" htmlFor="ob-role">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-role">
           Role / Title <span className="text-red-500">*</span>
         </Label>
         <Input
@@ -142,7 +142,7 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
 
       {/* Bio */}
       <div className="space-y-1.5">
-        <Label className="text-[#1E293B] font-medium" htmlFor="ob-bio">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-bio">
           Bio
         </Label>
         <Textarea
@@ -160,7 +160,7 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
 
       {/* LinkedIn */}
       <div className="space-y-1.5">
-        <Label className="text-[#1E293B] font-medium" htmlFor="ob-linkedin">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-linkedin">
           LinkedIn URL <span className="text-gray-400 font-normal">(optional)</span>
         </Label>
         <Input
