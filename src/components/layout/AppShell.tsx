@@ -7,6 +7,7 @@ import {
   MessageSquare,
   Menu,
   X,
+  LogOut,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -52,7 +53,7 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function AppShell() {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const initials = profile?.name
@@ -89,6 +90,13 @@ export function AppShell() {
             </p>
             <p className="text-xs text-slate-400 truncate">{profile?.email ?? ''}</p>
           </div>
+          <button
+            onClick={signOut}
+            className="p-1.5 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+            aria-label="Sign out"
+          >
+            <LogOut size={16} />
+          </button>
         </div>
       </aside>
 
@@ -132,6 +140,13 @@ export function AppShell() {
                   {profile?.name ?? 'Loading…'}
                 </p>
               </div>
+              <button
+                onClick={signOut}
+                className="p-1.5 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                aria-label="Sign out"
+              >
+                <LogOut size={16} />
+              </button>
             </div>
           </aside>
         </div>
