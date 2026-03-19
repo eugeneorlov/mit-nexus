@@ -10,7 +10,7 @@ import { OptInToggle } from '@/components/roulette/OptInToggle';
 import { InviteCTA } from '@/components/invite/InviteCTA';
 import { ProgressBar } from '@/components/invite/ProgressBar';
 
-const MEMBER_THRESHOLD = 10;
+const MEMBER_THRESHOLD = 2;
 
 export default function Dashboard() {
   const { profile } = useAuth();

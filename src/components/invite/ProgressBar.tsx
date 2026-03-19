@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
-const MEMBER_THRESHOLD = 10;
+const MEMBER_THRESHOLD = 2;
 
 export function ProgressBar() {
   const [memberCount, setMemberCount] = useState<number | null>(null);
@@ -32,8 +32,8 @@ export function ProgressBar() {
     <div className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
         <span className="text-gray-500">
-          {memberCount}/10 members —{' '}
-          <span className="text-brand-gold font-medium">Coffee Roulette activates at 10!</span>
+          {memberCount}/{MEMBER_THRESHOLD} members —{' '}
+          <span className="text-brand-gold font-medium">Coffee Roulette activates at {MEMBER_THRESHOLD}!</span>
         </span>
         <span className="text-gray-500">{MEMBER_THRESHOLD - memberCount} more needed</span>
       </div>
