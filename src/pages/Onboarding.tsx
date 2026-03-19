@@ -20,6 +20,8 @@ const defaultBasics: StepBasicsData = {
   linkedinUrl: '',
   avatarFile: null,
   avatarPreviewUrl: null,
+  program: 'Innovation Leadership',
+  cohortYear: '2026',
 };
 
 const defaultTags: StepTagsData = {
@@ -144,6 +146,8 @@ export default function Onboarding() {
           latitude: location.latitude,
           longitude: location.longitude,
           timezone,
+          program: basics.program,
+          cohort_year: parseInt(basics.cohortYear, 10),
           onboarded: true,
         });
 

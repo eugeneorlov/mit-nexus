@@ -151,6 +151,12 @@ export function ProfileCard({ profile, compact = false }: ProfileCardProps) {
                 {[profile.city, profile.country].filter(Boolean).join(', ')}
               </p>
             )}
+
+            {(profile.program || profile.cohort_year) && (
+              <span className="inline-block mt-1.5 text-xs bg-slate-100 text-slate-600 rounded-full px-2 py-0.5">
+                {[profile.program, profile.cohort_year].filter(Boolean).join(' · ')}
+              </span>
+            )}
           </div>
         </div>
 

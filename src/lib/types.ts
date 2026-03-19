@@ -23,6 +23,8 @@ export interface Profile {
   latitude: number | null;
   longitude: number | null;
   timezone: string | null;
+  program: string | null;
+  cohort_year: number | null;
   onboarded: boolean;
   roulette_opt_in: boolean;
   created_at: string;
