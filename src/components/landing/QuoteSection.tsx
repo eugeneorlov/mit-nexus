@@ -16,7 +16,7 @@ export default function QuoteSection() {
           </blockquote>
 
           <p className="text-base text-slate-500 mt-6">
-            — Built for the MIT PE Innovation Leadership Cohort 2026
+            — Built for the MIT PE CXO Cohort 2026
           </p>
         </div>
       </div>
