@@ -14,7 +14,7 @@ The app has three core features:
 
 **Cohort Map** — An interactive world map showing where every member is based, with travel pins for upcoming trips. "I'm in Tokyo next week — who else is nearby?" takes 5 seconds to answer.
 
-**Coffee Roulette** — Weekly random 1:1 matches based on complementary skills. Each member tags what they can help with and what they want to learn. The algorithm pairs people whose "help" tags overlap with the other's "learn" tags. Activates once 10+ members have onboarded.
+**Coffee Roulette** — On-demand 1:1 matching based on complementary skills. Each member tags what they can help with and what they want to learn. Click "Find me a match" to get paired instantly (if someone is waiting) or enter a queue. The algorithm scores candidates by tag overlap and novelty, with a limit of 2 active matches per user. Activates once 10+ members have onboarded.
 
 **Direct Messages** — Real-time private chat with any cohort member. Built on Supabase Realtime (Postgres Changes), so messages appear instantly with no polling.
 
@@ -114,11 +114,12 @@ src/
 
 ## Database Schema
 
-Six tables, all with Row-Level Security:
+Seven tables, all with Row-Level Security:
 
 - **profiles** — Extends Supabase auth.users with name, company, role, location, bio, avatar
 - **tags** — "I can help with" / "I want to learn" skill tags per user
-- **matches** — Weekly Coffee Roulette pairings with shared tag overlap
+- **matches** — Coffee Roulette pairings with shared tag overlap and status (active/completed/skipped)
+- **match_queue** — Queue for users waiting for an on-demand Coffee Roulette match
 - **messages** — Real-time DMs (Supabase Realtime enabled)
 - **trips** — Travel announcements with dates and location
 - **invites** — Viral invite links with tracking
