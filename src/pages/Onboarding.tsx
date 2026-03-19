@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/AuthContext';
 import StepBasics from '@/components/onboarding/StepBasics';
 import type { StepBasicsData } from '@/components/onboarding/StepBasics';
 import StepTags from '@/components/onboarding/StepTags';
@@ -46,6 +47,7 @@ const defaultLocation: StepLocationData = {
 
 export default function Onboarding() {
   const navigate = useNavigate();
+  const { refreshProfile } = useAuth();
   const [step, setStep] = useState(1);
   const [basics, setBasics] = useState<StepBasicsData>(defaultBasics);
   const [basicsErrors, setBasicsErrors] = useState<Partial<Record<keyof StepBasicsData, string>>>({});
@@ -193,6 +195,7 @@ export default function Onboarding() {
         if (tripError) throw tripError;
       }
 
+      await refreshProfile();
       navigate('/welcome');
     } catch (err) {
       const msg =
