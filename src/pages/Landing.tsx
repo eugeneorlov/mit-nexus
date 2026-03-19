@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import HeroSection from '@/components/landing/HeroSection';
+import MITBuildingSection from '@/components/landing/MITBuildingSection';
 import StatsBar from '@/components/landing/StatsBar';
 import FeaturesSection from '@/components/landing/FeaturesSection';
 import HowItWorksSection from '@/components/landing/HowItWorksSection';
@@ -32,6 +33,7 @@ export default function Landing() {
   return (
     <div className="font-sans" style={{ scrollBehavior: 'smooth' }}>
       <HeroSection />
+      <MITBuildingSection />
       <StatsBar />
       <FeaturesSection />
       <HowItWorksSection />

@@ -7,7 +7,7 @@ const features = [
     iconColor: 'text-blue-500',
     title: 'Cohort Map',
     description:
-      'See where 144 CTOs are based — and who\'s traveling to your city next. Pin your home, announce trips, and discover neighbors you never knew you had.',
+      'See where 144 CXOs are based — and who\'s traveling to your city next. Pin your home, announce trips, and discover neighbors you never knew you had.',
   },
   {
     icon: Coffee,

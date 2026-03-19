@@ -2,12 +2,12 @@ const stats = [
   { value: '144', label: 'Leaders' },
   { value: '30+', label: 'Countries' },
   { value: '50+', label: 'Industries' },
-  { value: '2026', label: 'Cohort Year' },
+  { value: '2026', label: 'Cohort' },
 ];
 
 export default function StatsBar() {
   return (
-    <section id="stats" className="py-16 px-6 md:px-8" style={{ backgroundColor: '#1E293B' }}>
+    <section id="stats" className="py-12 px-6 md:px-8 bg-brand-navy">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
           {stats.map((stat, i) => (
