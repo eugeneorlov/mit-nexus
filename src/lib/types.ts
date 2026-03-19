@@ -31,13 +31,22 @@ export interface Profile {
   last_active: string;
 }
 
+export interface MatchQueueEntry {
+  id: string;
+  user_id: string;
+  entered_at: string;
+  matched: boolean;
+}
+
 export interface Match {
   id: string;
-  user_a: string;               // UUID ref to profiles
-  user_b: string;               // UUID ref to profiles
-  status: 'pending' | 'accepted' | 'declined';
+  user_a_id: string;            // UUID ref to profiles
+  user_b_id: string;            // UUID ref to profiles
+  week_number?: number | null;  // legacy, nullable for on-demand matches
+  year?: number | null;         // legacy, nullable for on-demand matches
+  status: 'pending' | 'active' | 'completed' | 'skipped';
+  shared_tags: string[] | null;
   created_at: string;
-  updated_at: string;
 }
 
 export interface Message {
@@ -84,6 +93,10 @@ export interface ProfileWithTags extends Profile {
   tags: Tag[];
   helpTags: string[];   // derived: tags where category === 'help'
   learnTags: string[];  // derived: tags where category === 'learn'
+}
+
+export interface MatchWithProfile extends Match {
+  partner: Profile;
 }
 
 export interface MatchWithProfiles extends Match {
