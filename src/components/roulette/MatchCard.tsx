@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -110,9 +110,19 @@ function ActiveMatchItem({ match, onComplete, onSkip }: {
 }
 
 export function MatchCard() {
-  const { queueStatus, activeMatches, canMatch, error, findMatch, leaveQueue, completeMatch, skipMatch } = useRoulette();
+  const { queueStatus, activeMatches, canMatch, error, lastMatchedAt, findMatch, leaveQueue, completeMatch, skipMatch } = useRoulette();
   const [findingMatch, setFindingMatch] = useState(false);
+  const [justMatched, setJustMatched] = useState(false);
   const debounceRef = useRef(false);
+
+  // Show "Match found!" briefly when a Realtime match arrives
+  useEffect(() => {
+    if (lastMatchedAt) {
+      setJustMatched(true);
+      const timer = setTimeout(() => setJustMatched(false), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [lastMatchedAt]);
 
   async function handleFindMatch() {
     if (debounceRef.current || findingMatch) return;
@@ -152,6 +162,14 @@ export function MatchCard() {
       <CardContent className="space-y-4">
         {error && (
           <p className="text-xs text-red-500 bg-red-50 px-3 py-2 rounded">{error}</p>
+        )}
+
+        {/* Match found transition */}
+        {justMatched && (
+          <div className="flex items-center gap-2 text-sm bg-amber-50 border border-amber-200 rounded-lg px-3 py-3">
+            <CheckCircle size={16} className="text-brand-gold flex-shrink-0" />
+            <p className="font-semibold text-brand-gold">Match found!</p>
+          </div>
         )}
 
         {/* Active matches */}
