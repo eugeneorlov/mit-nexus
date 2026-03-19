@@ -30,11 +30,12 @@ export function ProgressBar() {
 
   return (
     <div className="space-y-1.5">
-      <div className="flex items-center justify-between text-xs text-gray-500">
-        <span>
-          {memberCount}/10 members — Coffee Roulette activates at 10!
+      <div className="flex items-center justify-between text-xs">
+        <span className="text-gray-500">
+          {memberCount}/10 members —{' '}
+          <span className="text-brand-gold font-medium">Coffee Roulette activates at 10!</span>
         </span>
-        <span>{MEMBER_THRESHOLD - memberCount} more needed</span>
+        <span className="text-gray-500">{MEMBER_THRESHOLD - memberCount} more needed</span>
       </div>
       <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
         <div

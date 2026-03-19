@@ -82,9 +82,9 @@ export default function Dashboard() {
               {memberCount !== null ? memberCount : '—'} / —
             </span>
           </div>
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#10B981] rounded-full transition-all"
+              className="h-full bg-brand-gold rounded-full transition-all"
               style={{ width: memberCount !== null && memberCount > 0 ? '60%' : '0%' }}
             />
           </div>
