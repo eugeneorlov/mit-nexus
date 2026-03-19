@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/AuthContext';
 import type { Match, MatchWithProfile, Profile } from '@/lib/types';
@@ -14,6 +14,7 @@ interface UseRouletteReturn {
     matchHistory: MatchWithProfile[];
     canMatch: boolean;
     error: string | null;
+    lastMatchedAt: number | null;
     findMatch: () => Promise<MatchResult>;
     leaveQueue: () => Promise<void>;
     completeMatch: (matchId: string) => Promise<void>;
@@ -45,6 +46,7 @@ export function useRoulette(): UseRouletteReturn {
     const [activeMatches, setActiveMatches] = useState<MatchWithProfile[]>([]);
     const [matchHistory, setMatchHistory] = useState<MatchWithProfile[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [lastMatchedAt, setLastMatchedAt] = useState<number | null>(null);
 
     const refresh = useCallback(async () => {
         if (!user) return;
@@ -68,6 +70,81 @@ export function useRoulette(): UseRouletteReturn {
     useEffect(() => {
         refresh();
     }, [refresh]);
+
+    // Ref pattern to avoid stale closures in Realtime callbacks
+    const refreshRef = useRef(refresh);
+    refreshRef.current = refresh;
+
+    const handleMatchReceived = useCallback(async () => {
+        await refreshRef.current();
+        setQueueStatus('idle');
+        setLastMatchedAt(Date.now());
+    }, []);
+
+    const handleMatchReceivedRef = useRef(handleMatchReceived);
+    handleMatchReceivedRef.current = handleMatchReceived;
+
+    const handleMatchUpdated = useCallback(async () => {
+        await refreshRef.current();
+    }, []);
+
+    const handleMatchUpdatedRef = useRef(handleMatchUpdated);
+    handleMatchUpdatedRef.current = handleMatchUpdated;
+
+    // Subscribe to Realtime changes on the matches table
+    const shouldSubscribe = queueStatus === 'queued' || activeMatches.length > 0;
+
+    useEffect(() => {
+        if (!shouldSubscribe || !user) return;
+
+        const channel = supabase
+            .channel(`roulette-match-${user.id}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'matches',
+                    filter: `user_a_id=eq.${user.id}`,
+                },
+                () => handleMatchReceivedRef.current()
+            )
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'matches',
+                    filter: `user_b_id=eq.${user.id}`,
+                },
+                () => handleMatchReceivedRef.current()
+            )
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'matches',
+                    filter: `user_a_id=eq.${user.id}`,
+                },
+                () => handleMatchUpdatedRef.current()
+            )
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'matches',
+                    filter: `user_b_id=eq.${user.id}`,
+                },
+                () => handleMatchUpdatedRef.current()
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, [shouldSubscribe, user]);
 
     const findMatch = useCallback(async (): Promise<MatchResult> => {
         if (!user) return { status: 'ERROR', error: 'Not authenticated' };
@@ -137,6 +214,7 @@ export function useRoulette(): UseRouletteReturn {
         matchHistory,
         canMatch,
         error,
+        lastMatchedAt,
         findMatch,
         leaveQueue,
         completeMatch,
