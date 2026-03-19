@@ -132,6 +132,7 @@ export default function Onboarding() {
         .from('profiles')
         .upsert({
           id: user.id,
+          email: user.email,
           name: basics.name.trim(),
           company: basics.company.trim(),
           role: basics.role.trim(),
@@ -174,8 +175,8 @@ export default function Onboarding() {
           country: location.tripCountry,
           latitude: location.tripLatitude,
           longitude: location.tripLongitude,
-          start_date: location.tripStartDate,
-          end_date: location.tripEndDate,
+          date_from: location.tripStartDate,
+          date_to: location.tripEndDate,
         });
         if (tripError) throw tripError;
       }
