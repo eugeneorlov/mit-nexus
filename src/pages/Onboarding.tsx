@@ -146,12 +146,20 @@ export default function Onboarding() {
           latitude: location.latitude,
           longitude: location.longitude,
           timezone,
-          program: basics.program,
-          cohort_year: parseInt(basics.cohortYear, 10),
           onboarded: true,
         });
 
       if (upsertError) throw upsertError;
+
+      // Save program/cohort_year separately — columns added in migration 002.
+      // Silently skips if the migration hasn't been applied yet.
+      await supabase
+        .from('profiles')
+        .update({
+          program: basics.program,
+          cohort_year: parseInt(basics.cohortYear, 10),
+        })
+        .eq('id', user.id);
 
       // Delete existing tags then insert new ones
       await supabase.from('tags').delete().eq('user_id', user.id);
