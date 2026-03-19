@@ -131,11 +131,14 @@ export function useThread(partnerId: string) {
   const sendMessage = useCallback(
     async (content: string) => {
       if (!user) return;
-      await supabase.from('messages').insert({
-        sender_id: user.id,
-        receiver_id: partnerId,
-        content,
-      });
+      const { data } = await supabase
+        .from('messages')
+        .insert({ sender_id: user.id, receiver_id: partnerId, content })
+        .select()
+        .single();
+      if (data) {
+        setMessages((prev) => [...prev, data as Message]);
+      }
     },
     [user, partnerId]
   );
