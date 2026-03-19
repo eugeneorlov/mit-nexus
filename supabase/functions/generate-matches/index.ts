@@ -42,13 +42,7 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    // Use a user-scoped client to validate the JWT
-    const supabaseClient = createClient(supabaseUrl, Deno.env.get('SUPABASE_ANON_KEY') ?? '', {
-      auth: { persistSession: false },
-      global: { headers: { Authorization: authHeader } },
-    });
-
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
+    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(
       authHeader.replace('Bearer ', ''),
     );
 
