@@ -74,7 +74,7 @@ Deno.serve(async (req: Request) => {
           error: 'NOT_ELIGIBLE',
           message: 'You must be onboarded and opted in to Coffee Roulette.',
         }),
-        { headers: corsHeaders, status: 400 },
+        { headers: corsHeaders, status: 200 },
       );
     }
 
@@ -91,7 +91,7 @@ Deno.serve(async (req: Request) => {
           error: 'MAX_MATCHES',
           message: 'Complete or skip a current match before finding a new one.',
         }),
-        { headers: corsHeaders, status: 400 },
+        { headers: corsHeaders, status: 200 },
       );
     }
 
@@ -109,7 +109,7 @@ Deno.serve(async (req: Request) => {
           error: 'ALREADY_QUEUED',
           message: 'You are already waiting for a match.',
         }),
-        { headers: corsHeaders, status: 400 },
+        { headers: corsHeaders, status: 200 },
       );
     }
 
@@ -133,7 +133,7 @@ Deno.serve(async (req: Request) => {
             error: 'ALREADY_QUEUED',
             message: 'You are already waiting for a match.',
           }),
-          { headers: corsHeaders, status: 400 },
+          { headers: corsHeaders, status: 200 },
         );
       }
 
@@ -183,7 +183,7 @@ Deno.serve(async (req: Request) => {
             error: 'ALREADY_QUEUED',
             message: 'You are already waiting for a match.',
           }),
-          { headers: corsHeaders, status: 400 },
+          { headers: corsHeaders, status: 200 },
         );
       }
 
