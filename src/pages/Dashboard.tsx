@@ -7,6 +7,8 @@ import { supabase } from '@/lib/supabase';
 import { MatchCard } from '@/components/roulette/MatchCard';
 import { MatchHistory } from '@/components/roulette/MatchHistory';
 import { OptInToggle } from '@/components/roulette/OptInToggle';
+import { InviteCTA } from '@/components/invite/InviteCTA';
+import { ProgressBar } from '@/components/invite/ProgressBar';
 
 const MEMBER_THRESHOLD = 10;
 
@@ -22,7 +24,6 @@ export default function Dashboard() {
       .then(({ count }) => setMemberCount(count ?? 0));
   }, []);
 
-  const progress = memberCount !== null ? Math.min(memberCount / MEMBER_THRESHOLD, 1) : 0;
   const hasEnoughMembers = memberCount !== null && memberCount >= MEMBER_THRESHOLD;
 
   return (
@@ -45,31 +46,23 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       ) : !hasEnoughMembers ? (
-        <Card className="border border-gray-200">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
-              <Coffee size={18} className="text-[#F59E0B]" />
-              Coffee Roulette
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-gray-500">
-              Invite cohort mates to activate Coffee Roulette
-            </p>
-            <div>
-              <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
-                <span>{memberCount} of {MEMBER_THRESHOLD} members joined</span>
-                <span>{MEMBER_THRESHOLD - memberCount} more needed</span>
-              </div>
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-[#F59E0B] rounded-full transition-all"
-                  style={{ width: `${progress * 100}%` }}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <>
+          <Card className="border border-gray-200">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
+                <Coffee size={18} className="text-[#F59E0B]" />
+                Coffee Roulette
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-gray-500">
+                Invite cohort mates to activate Coffee Roulette
+              </p>
+              <ProgressBar />
+            </CardContent>
+          </Card>
+          <InviteCTA />
+        </>
       ) : (
         <MatchCard />
       )}
