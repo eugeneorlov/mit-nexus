@@ -85,6 +85,12 @@ export default function Profile() {
                   {[profile.city, profile.country].filter(Boolean).join(', ')}
                 </p>
               )}
+
+              {(profile.program || profile.cohort_year) && (
+                <span className="inline-block mt-2 text-xs bg-slate-100 text-slate-600 rounded-full px-2.5 py-0.5">
+                  {[profile.program, profile.cohort_year].filter(Boolean).join(' · ')}
+                </span>
+              )}
             </div>
           </div>
 

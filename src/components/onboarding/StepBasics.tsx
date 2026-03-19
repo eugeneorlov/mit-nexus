@@ -15,7 +15,22 @@ export interface StepBasicsData {
   linkedinUrl: string;
   avatarFile: File | null;
   avatarPreviewUrl: string | null;
+  program: string;
+  cohortYear: string;
 }
+
+const PROGRAM_OPTIONS = [
+  'Innovation Leadership',
+  'Technology Leadership Program (TLP)',
+  'Digital Transformation',
+  'Chief Technology Officer',
+  'Chief Digital Officer',
+  'Chief Product Officer',
+  'Short Programs',
+  'Other',
+];
+
+const COHORT_YEAR_OPTIONS = ['2024', '2025', '2026', '2027'];
 
 interface StepBasicsProps {
   data: StepBasicsData;
@@ -170,6 +185,40 @@ export default function StepBasics({ data, onChange, errors }: StepBasicsProps) 
           value={data.linkedinUrl}
           onChange={(e) => set('linkedinUrl', e.target.value)}
         />
+      </div>
+
+      {/* Program */}
+      <div className="space-y-1.5">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-program">
+          MIT PE Program
+        </Label>
+        <select
+          id="ob-program"
+          value={data.program}
+          onChange={(e) => set('program', e.target.value)}
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:ring-offset-2"
+        >
+          {PROGRAM_OPTIONS.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Cohort Year */}
+      <div className="space-y-1.5">
+        <Label className="text-brand-navy-light font-medium" htmlFor="ob-cohort-year">
+          Cohort Year
+        </Label>
+        <select
+          id="ob-cohort-year"
+          value={data.cohortYear}
+          onChange={(e) => set('cohortYear', e.target.value)}
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:ring-offset-2"
+        >
+          {COHORT_YEAR_OPTIONS.map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
       </div>
     </div>
   );

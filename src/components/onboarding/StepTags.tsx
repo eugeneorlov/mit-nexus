@@ -6,31 +6,74 @@ import { Label } from '@/components/ui/label';
 
 const MAX_TAGS = 5;
 
-const SUGGESTED_HELP_TAGS = [
-  'AI/ML Strategy',
-  'Fundraising',
-  'Scaling Engineering',
-  'Board Management',
-  'Product-Led Growth',
-  'M&A',
-  'International Expansion',
-  'Team Building',
-  'CTO→CEO Transition',
-  'Data Infrastructure',
+interface TagCategory {
+  label: string;
+  tags: string[];
+}
+
+const TAG_CATEGORIES: TagCategory[] = [
+  {
+    label: 'Strategy & Leadership',
+    tags: [
+      'Board Management',
+      'CTO→CEO Transition',
+      'Scaling from Startup to Enterprise',
+      'M&A Due Diligence (Tech)',
+      'Executive Communication',
+      'Organizational Design',
+      'OKR / Strategy Frameworks',
+      'Building Innovation Culture',
+    ],
+  },
+  {
+    label: 'Technology & Architecture',
+    tags: [
+      'AI/ML Strategy & Implementation',
+      'Data Platform & Infrastructure',
+      'Cloud Migration & Architecture',
+      'Technical Debt Management',
+      'Cybersecurity & Compliance',
+      'Platform Engineering / DevOps',
+      'API Strategy & Microservices',
+      'Edge Computing / IoT',
+    ],
+  },
+  {
+    label: 'Product & Growth',
+    tags: [
+      'Product-Led Growth',
+      'Go-To-Market Strategy',
+      'Pricing & Monetization',
+      'Customer Data & Analytics',
+      'UX/Design Leadership',
+      'A/B Testing at Scale',
+    ],
+  },
+  {
+    label: 'People & Org',
+    tags: [
+      'Hiring & Talent Strategy',
+      'Remote/Hybrid Teams',
+      'Engineering Culture',
+      'Diversity & Inclusion in Tech',
+      'Performance Management',
+      'Team Topologies',
+    ],
+  },
+  {
+    label: 'Business & Finance',
+    tags: [
+      'Fundraising & Investor Relations',
+      'IP / Patent Strategy',
+      'International Expansion',
+      'Digital Transformation in Regulated Industries',
+      'Vendor / Build-vs-Buy Decisions',
+    ],
+  },
 ];
 
-const SUGGESTED_LEARN_TAGS = [
-  'Security/Compliance',
-  'Mobile Development',
-  'Developer Experience',
-  'Go-To-Market',
-  'Hiring',
-  'Remote Teams',
-  'Technical Architecture',
-  'DevOps/Platform',
-  'Analytics',
-  'Legal/IP',
-];
+// Flat list of all tags for backwards-compatibility (custom tag check, etc.)
+const ALL_TAGS = TAG_CATEGORIES.flatMap((c) => c.tags);
 
 export interface StepTagsData {
   helpTags: string[];
@@ -50,7 +93,6 @@ interface TagSectionProps {
   borderColor: string;
   bgColor: string;
   textColor: string;
-  suggestions: string[];
   selected: string[];
   onToggle: (tag: string) => void;
   onAdd: (tag: string) => void;
@@ -64,7 +106,6 @@ function TagSection({
   borderColor,
   bgColor,
   textColor,
-  suggestions,
   selected,
   onToggle,
   onAdd,
@@ -93,6 +134,31 @@ function TagSection({
 
   const atMax = selected.length >= MAX_TAGS;
 
+  function renderTag(tag: string) {
+    const isSelected = selected.includes(tag);
+    return (
+      <button
+        key={tag}
+        type="button"
+        onClick={() => onToggle(tag)}
+        disabled={!isSelected && atMax}
+        className="focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 rounded-full"
+        style={{ ['--ring-color' as string]: accentColor }}
+      >
+        <Badge
+          variant={isSelected ? 'default' : 'outline'}
+          className={`cursor-pointer select-none transition-colors text-xs px-3 py-1 ${
+            isSelected
+              ? `${bgColor} ${textColor} ${borderColor} border hover:opacity-80`
+              : `border-gray-300 text-gray-600`
+          } ${!isSelected && atMax ? 'opacity-40 cursor-not-allowed' : ''}`}
+        >
+          {tag}
+        </Badge>
+      </button>
+    );
+  }
+
   return (
     <div className="space-y-3">
       <div>
@@ -110,39 +176,25 @@ function TagSection({
         )}
       </div>
 
-      {/* Suggestion badges */}
-      <div className="flex flex-wrap gap-2">
-        {suggestions.map((tag) => {
-          const isSelected = selected.includes(tag);
-          return (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => onToggle(tag)}
-              disabled={!isSelected && atMax}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 rounded-full"
-              style={{ ['--ring-color' as string]: accentColor }}
-            >
-              <Badge
-                variant={isSelected ? 'default' : 'outline'}
-                className={`cursor-pointer select-none transition-colors text-xs px-3 py-1 ${
-                  isSelected
-                    ? `${bgColor} ${textColor} ${borderColor} border hover:opacity-80`
-                    : `border-gray-300 text-gray-600 hover:${borderColor} hover:${bgColor} hover:${textColor} disabled:opacity-40 disabled:cursor-not-allowed`
-                } ${!isSelected && atMax ? 'opacity-40 cursor-not-allowed' : ''}`}
-              >
-                {tag}
-              </Badge>
-            </button>
-          );
-        })}
+      {/* Tags grouped by category */}
+      <div className="space-y-4">
+        {TAG_CATEGORIES.map((category) => (
+          <div key={category.label}>
+            <p className="text-xs uppercase tracking-wide text-slate-400 mb-2">
+              {category.label}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {category.tags.map(renderTag)}
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Custom tags added by user (not in suggestions) */}
-      {selected.filter((t) => !suggestions.includes(t)).length > 0 && (
-        <div className="flex flex-wrap gap-2">
+      {/* Custom tags added by user (not in any category) */}
+      {selected.filter((t) => !ALL_TAGS.includes(t)).length > 0 && (
+        <div className="flex flex-wrap gap-2 pt-1">
           {selected
-            .filter((t) => !suggestions.includes(t))
+            .filter((t) => !ALL_TAGS.includes(t))
             .map((tag) => (
               <button
                 key={tag}
@@ -208,12 +260,11 @@ export default function StepTags({ data, onChange, errors }: StepTagsProps) {
     <div className="space-y-8">
       <TagSection
         label="I can help with"
-        description="Share your expertise with your cohort."
+        description="Share your expertise with your cohort. Pick up to 5."
         accentColor="#10B981"
         borderColor="border-emerald-500"
         bgColor="bg-emerald-50"
         textColor="text-emerald-700"
-        suggestions={SUGGESTED_HELP_TAGS}
         selected={data.helpTags}
         onToggle={(tag) => toggleTag('helpTags', tag)}
         onAdd={(tag) => addCustomTag('helpTags', tag)}
@@ -224,12 +275,11 @@ export default function StepTags({ data, onChange, errors }: StepTagsProps) {
 
       <TagSection
         label="I want to learn"
-        description="What are you looking to get from your cohort?"
+        description="What are you looking to get from your cohort? Pick up to 5."
         accentColor="#3B82F6"
         borderColor="border-blue-500"
         bgColor="bg-blue-50"
         textColor="text-blue-700"
-        suggestions={SUGGESTED_LEARN_TAGS}
         selected={data.learnTags}
         onToggle={(tag) => toggleTag('learnTags', tag)}
         onAdd={(tag) => addCustomTag('learnTags', tag)}

@@ -18,17 +18,43 @@ import type { Trip } from '@/lib/types';
 const BIO_MAX = 280;
 const MAX_TAGS = 5;
 
-const SUGGESTED_HELP_TAGS = [
-  'AI/ML Strategy', 'Fundraising', 'Scaling Engineering', 'Board Management',
-  'Product-Led Growth', 'M&A', 'International Expansion', 'Team Building',
-  'CTO→CEO Transition', 'Data Infrastructure',
+const TAG_CATEGORIES = [
+  {
+    label: 'Strategy & Leadership',
+    tags: ['Board Management', 'CTO→CEO Transition', 'Scaling from Startup to Enterprise', 'M&A Due Diligence (Tech)', 'Executive Communication', 'Organizational Design', 'OKR / Strategy Frameworks', 'Building Innovation Culture'],
+  },
+  {
+    label: 'Technology & Architecture',
+    tags: ['AI/ML Strategy & Implementation', 'Data Platform & Infrastructure', 'Cloud Migration & Architecture', 'Technical Debt Management', 'Cybersecurity & Compliance', 'Platform Engineering / DevOps', 'API Strategy & Microservices', 'Edge Computing / IoT'],
+  },
+  {
+    label: 'Product & Growth',
+    tags: ['Product-Led Growth', 'Go-To-Market Strategy', 'Pricing & Monetization', 'Customer Data & Analytics', 'UX/Design Leadership', 'A/B Testing at Scale'],
+  },
+  {
+    label: 'People & Org',
+    tags: ['Hiring & Talent Strategy', 'Remote/Hybrid Teams', 'Engineering Culture', 'Diversity & Inclusion in Tech', 'Performance Management', 'Team Topologies'],
+  },
+  {
+    label: 'Business & Finance',
+    tags: ['Fundraising & Investor Relations', 'IP / Patent Strategy', 'International Expansion', 'Digital Transformation in Regulated Industries', 'Vendor / Build-vs-Buy Decisions'],
+  },
 ];
 
-const SUGGESTED_LEARN_TAGS = [
-  'Security/Compliance', 'Mobile Development', 'Developer Experience', 'Go-To-Market',
-  'Hiring', 'Remote Teams', 'Technical Architecture', 'DevOps/Platform',
-  'Analytics', 'Legal/IP',
+const ALL_TAGS = TAG_CATEGORIES.flatMap((c) => c.tags);
+
+const PROGRAM_OPTIONS = [
+  'Innovation Leadership',
+  'Technology Leadership Program (TLP)',
+  'Digital Transformation',
+  'Chief Technology Officer',
+  'Chief Digital Officer',
+  'Chief Product Officer',
+  'Short Programs',
+  'Other',
 ];
+
+const COHORT_YEAR_OPTIONS = ['2024', '2025', '2026', '2027'];
 
 function getInitials(name: string): string {
   return name
@@ -139,14 +165,13 @@ function CitySearch({ id, label, placeholder, selected, onSelect, error }: CityS
 
 interface TagSectionProps {
   label: string;
-  suggestions: string[];
   selected: string[];
   onToggle: (tag: string) => void;
   onAdd: (tag: string) => void;
   colorClasses: { border: string; bg: string; text: string };
 }
 
-function TagSection({ label, suggestions, selected, onToggle, onAdd, colorClasses }: TagSectionProps) {
+function TagSection({ label, selected, onToggle, onAdd, colorClasses }: TagSectionProps) {
   const [customInput, setCustomInput] = useState('');
   const atMax = selected.length >= MAX_TAGS;
 
@@ -170,34 +195,41 @@ function TagSection({ label, suggestions, selected, onToggle, onAdd, colorClasse
         </span>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        {suggestions.map((tag) => {
-          const isSelected = selected.includes(tag);
-          return (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => onToggle(tag)}
-              disabled={!isSelected && atMax}
-              className="focus:outline-none rounded-full"
-            >
-              <Badge
-                className={`cursor-pointer select-none transition-colors text-xs px-3 py-1 ${
-                  isSelected
-                    ? `${colorClasses.bg} ${colorClasses.text} ${colorClasses.border} border hover:opacity-80`
-                    : `border-gray-300 text-gray-600 ${!isSelected && atMax ? 'opacity-40 cursor-not-allowed' : ''}`
-                }`}
-              >
-                {tag}
-              </Badge>
-            </button>
-          );
-        })}
+      <div className="space-y-4">
+        {TAG_CATEGORIES.map((category) => (
+          <div key={category.label}>
+            <p className="text-xs uppercase tracking-wide text-slate-400 mb-2">{category.label}</p>
+            <div className="flex flex-wrap gap-2">
+              {category.tags.map((tag) => {
+                const isSelected = selected.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => onToggle(tag)}
+                    disabled={!isSelected && atMax}
+                    className="focus:outline-none rounded-full"
+                  >
+                    <Badge
+                      className={`cursor-pointer select-none transition-colors text-xs px-3 py-1 ${
+                        isSelected
+                          ? `${colorClasses.bg} ${colorClasses.text} ${colorClasses.border} border hover:opacity-80`
+                          : `border-gray-300 text-gray-600 ${!isSelected && atMax ? 'opacity-40 cursor-not-allowed' : ''}`
+                      }`}
+                    >
+                      {tag}
+                    </Badge>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
-      {selected.filter((t) => !suggestions.includes(t)).length > 0 && (
+      {selected.filter((t) => !ALL_TAGS.includes(t)).length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {selected.filter((t) => !suggestions.includes(t)).map((tag) => (
+          {selected.filter((t) => !ALL_TAGS.includes(t)).map((tag) => (
             <button
               key={tag}
               type="button"
@@ -388,6 +420,10 @@ export default function ProfileEdit() {
   // Location state
   const [locationSelected, setLocationSelected] = useState<GeoResult | null>(null);
 
+  // Program state
+  const [program, setProgram] = useState('Innovation Leadership');
+  const [cohortYear, setCohortYear] = useState('2026');
+
   // Tag state
   const [helpTags, setHelpTags] = useState<string[]>([]);
   const [learnTags, setLearnTags] = useState<string[]>([]);
@@ -411,6 +447,8 @@ export default function ProfileEdit() {
     setBio(profile.bio ?? '');
     setLinkedinUrl(profile.linkedin_url ?? '');
     setAvatarPreview(profile.avatar_url);
+    setProgram(profile.program ?? 'Innovation Leadership');
+    setCohortYear(profile.cohort_year ? String(profile.cohort_year) : '2026');
     setHelpTags(profile.helpTags);
     setLearnTags(profile.learnTags);
 
@@ -518,6 +556,8 @@ export default function ProfileEdit() {
         country: locationSelected?.country ?? null,
         latitude: locationSelected?.latitude ?? null,
         longitude: locationSelected?.longitude ?? null,
+        program,
+        cohort_year: parseInt(cohortYear, 10),
       });
 
       await updateTags(helpTags, learnTags);
@@ -652,6 +692,40 @@ export default function ProfileEdit() {
             />
           </div>
 
+          {/* Program */}
+          <div className="space-y-1.5">
+            <Label htmlFor="ep-program" className="text-brand-navy-light font-medium">
+              MIT PE Program
+            </Label>
+            <select
+              id="ep-program"
+              value={program}
+              onChange={(e) => setProgram(e.target.value)}
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:ring-offset-2"
+            >
+              {PROGRAM_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Cohort Year */}
+          <div className="space-y-1.5">
+            <Label htmlFor="ep-cohort-year" className="text-brand-navy-light font-medium">
+              Cohort Year
+            </Label>
+            <select
+              id="ep-cohort-year"
+              value={cohortYear}
+              onChange={(e) => setCohortYear(e.target.value)}
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:ring-offset-2"
+            >
+              {COHORT_YEAR_OPTIONS.map((year) => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
+          </div>
+
           {/* Location */}
           <CitySearch
             id="ep-city"
@@ -671,7 +745,6 @@ export default function ProfileEdit() {
         <CardContent className="space-y-6">
           <TagSection
             label="I can help with"
-            suggestions={SUGGESTED_HELP_TAGS}
             selected={helpTags}
             onToggle={(tag) => toggleTag('help', tag)}
             onAdd={(tag) => addCustomTag('help', tag)}
@@ -680,7 +753,6 @@ export default function ProfileEdit() {
           <Separator />
           <TagSection
             label="I want to learn"
-            suggestions={SUGGESTED_LEARN_TAGS}
             selected={learnTags}
             onToggle={(tag) => toggleTag('learn', tag)}
             onAdd={(tag) => addCustomTag('learn', tag)}
