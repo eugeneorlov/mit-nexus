@@ -8,6 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
+        brand: {
+          navy: '#0F172A',
+          'navy-light': '#1E293B',
+          gold: '#C9A84C',
+          'gold-hover': '#B8963F',
+          'gold-subtle': 'rgba(201, 168, 76, 0.12)',
+          'mit-red': '#A31F34',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

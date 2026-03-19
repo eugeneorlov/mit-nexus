@@ -26,13 +26,13 @@ export function ProfilePopup({ profile }: ProfilePopupProps) {
             {profile.avatar_url ? (
               <AvatarImage src={profile.avatar_url} alt={profile.name ?? ''} />
             ) : null}
-            <AvatarFallback className="bg-[#1E293B] text-white text-sm">
+            <AvatarFallback className="bg-brand-navy-light text-white text-sm">
               {initials}
             </AvatarFallback>
           </Avatar>
 
           <div style={{ minWidth: 0 }}>
-            <p className="font-semibold text-[#1E293B] text-sm leading-tight truncate">
+            <p className="font-semibold text-brand-navy-light text-sm leading-tight truncate">
               {profile.name ?? 'Unknown'}
             </p>
             {profile.role && (
@@ -69,14 +69,14 @@ export function ProfilePopup({ profile }: ProfilePopupProps) {
           <Button
             size="sm"
             variant="outline"
-            className="flex-1 text-xs h-7 text-[#1E293B] border-[#1E293B] hover:bg-[#1E293B] hover:text-white"
+            className="flex-1 text-xs h-7 text-brand-navy-light border-[#1E293B] hover:bg-brand-navy-light hover:text-white"
             onClick={() => navigate(`/profile/${profile.id}`)}
           >
             View Profile
           </Button>
           <Button
             size="sm"
-            className="flex-1 text-xs h-7 bg-[#F59E0B] hover:bg-[#D97706] text-white"
+            className="flex-1 text-xs h-7 bg-brand-gold hover:bg-brand-gold-hover text-white"
             onClick={() => navigate(`/messages/${profile.id}`)}
           >
             Send Message

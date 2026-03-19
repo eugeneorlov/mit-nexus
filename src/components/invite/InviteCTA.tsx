@@ -47,8 +47,8 @@ export function InviteCTA() {
   return (
     <Card className="border border-gray-200">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
-          <Users size={18} className="text-[#F59E0B]" />
+        <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
+          <Users size={18} className="text-brand-gold" />
           Invite your cohort mates
         </CardTitle>
       </CardHeader>
@@ -67,7 +67,7 @@ export function InviteCTA() {
           className={`w-full gap-2 text-white ${
             copied
               ? 'bg-[#10B981] hover:bg-[#10B981]'
-              : 'bg-[#F59E0B] hover:bg-[#D97706]'
+              : 'bg-brand-gold hover:bg-brand-gold-hover'
           }`}
         >
           {copied ? (

@@ -68,7 +68,7 @@ export function MatchHistory() {
   return (
     <Card className="border border-gray-200">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
+        <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
           <Clock size={18} className="text-gray-400" />
           Past Matches
         </CardTitle>
@@ -83,12 +83,12 @@ export function MatchHistory() {
                 {otherProfile.avatar_url && (
                   <AvatarImage src={otherProfile.avatar_url} alt={otherProfile.name ?? ''} />
                 )}
-                <AvatarFallback className="bg-[#1E293B] text-white text-xs">
+                <AvatarFallback className="bg-brand-navy-light text-white text-xs">
                   {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#1E293B]">
+                <p className="text-sm font-medium text-brand-navy-light">
                   {otherProfile.name ?? 'Unknown'}
                 </p>
                 <p className="text-xs text-gray-400">
@@ -101,7 +101,7 @@ export function MatchHistory() {
                     ? 'bg-emerald-50 text-emerald-700'
                     : match.status === 'skipped'
                     ? 'bg-gray-100 text-gray-500'
-                    : 'bg-amber-50 text-amber-700'
+                    : 'bg-brand-gold-subtle text-brand-gold'
                 }`}
               >
                 {match.status}

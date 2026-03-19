@@ -29,7 +29,7 @@ export default function Dashboard() {
   return (
     <div className="p-6 space-y-6 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold text-[#1E293B]">
+        <h1 className="text-2xl font-bold text-brand-navy-light">
           Welcome back{profile?.name ? `, ${profile.name.split(' ')[0]}` : ''}!
         </h1>
         <p className="text-gray-500 mt-1">Here's what's happening in your cohort.</p>
@@ -49,8 +49,8 @@ export default function Dashboard() {
         <>
           <Card className="border border-gray-200">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
-                <Coffee size={18} className="text-[#F59E0B]" />
+              <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
+                <Coffee size={18} className="text-brand-gold" />
                 Coffee Roulette
               </CardTitle>
             </CardHeader>
@@ -70,7 +70,7 @@ export default function Dashboard() {
       {/* Cohort progress */}
       <Card className="border border-gray-200">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold text-[#1E293B] flex items-center gap-2">
+          <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
             <Users size={18} className="text-[#3B82F6]" />
             Cohort Progress
           </CardTitle>
@@ -78,7 +78,7 @@ export default function Dashboard() {
         <CardContent>
           <div className="flex items-center justify-between text-sm mb-2">
             <span className="text-gray-500">Members onboarded</span>
-            <span className="font-medium text-[#1E293B]">
+            <span className="font-medium text-brand-navy-light">
               {memberCount !== null ? memberCount : '—'} / —
             </span>
           </div>
@@ -97,18 +97,18 @@ export default function Dashboard() {
       {/* Quick links */}
       <div className="grid grid-cols-2 gap-4">
         <Link to="/directory">
-          <Card className="border border-gray-200 hover:border-[#F59E0B] hover:shadow-sm transition-all cursor-pointer">
+          <Card className="border border-gray-200 hover:border-brand-gold hover:shadow-sm transition-all cursor-pointer">
             <CardContent className="flex flex-col items-center justify-center py-6 gap-2">
-              <Users size={24} className="text-[#1E293B]" />
-              <span className="text-sm font-medium text-[#1E293B]">Directory</span>
+              <Users size={24} className="text-brand-navy-light" />
+              <span className="text-sm font-medium text-brand-navy-light">Directory</span>
             </CardContent>
           </Card>
         </Link>
         <Link to="/map">
-          <Card className="border border-gray-200 hover:border-[#F59E0B] hover:shadow-sm transition-all cursor-pointer">
+          <Card className="border border-gray-200 hover:border-brand-gold hover:shadow-sm transition-all cursor-pointer">
             <CardContent className="flex flex-col items-center justify-center py-6 gap-2">
-              <Map size={24} className="text-[#1E293B]" />
-              <span className="text-sm font-medium text-[#1E293B]">Map</span>
+              <Map size={24} className="text-brand-navy-light" />
+              <span className="text-sm font-medium text-brand-navy-light">Map</span>
             </CardContent>
           </Card>
         </Link>

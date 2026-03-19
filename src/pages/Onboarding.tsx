@@ -201,14 +201,14 @@ export default function Onboarding() {
               <div
                 key={i}
                 className={`h-1.5 flex-1 rounded-full transition-colors ${
-                  i + 1 <= step ? 'bg-[#F59E0B]' : 'bg-gray-200'
+                  i + 1 <= step ? 'bg-brand-gold' : 'bg-gray-200'
                 }`}
               />
             ))}
           </div>
 
           <div className="flex items-center justify-between">
-            <CardTitle className="text-[#1E293B] text-xl">
+            <CardTitle className="text-brand-navy-light text-xl">
               {step === 1 && 'Your Profile'}
               {step === 2 && 'Expertise & Interests'}
               {step === 3 && 'Location & Availability'}
@@ -248,7 +248,7 @@ export default function Onboarding() {
             variant="ghost"
             onClick={handleBack}
             disabled={step === 1}
-            className="text-[#1E293B]"
+            className="text-brand-navy-light"
           >
             Back
           </Button>
@@ -257,14 +257,14 @@ export default function Onboarding() {
             <Button
               onClick={handleSubmit}
               disabled={submitting}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white min-w-[140px]"
+              className="bg-brand-gold hover:bg-brand-gold-hover text-white min-w-[140px]"
             >
               {submitting ? 'Saving…' : 'Complete Profile'}
             </Button>
           ) : (
             <Button
               onClick={handleNext}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white min-w-[100px]"
+              className="bg-brand-gold hover:bg-brand-gold-hover text-white min-w-[100px]"
             >
               Next
             </Button>

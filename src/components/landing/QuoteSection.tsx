@@ -5,13 +5,13 @@ export default function QuoteSection() {
         <div className="relative max-w-3xl mx-auto text-center">
           {/* Decorative quote mark */}
           <span
-            className="absolute -top-8 left-0 text-8xl font-serif text-amber-200 leading-none select-none"
+            className="absolute -top-8 left-0 text-8xl font-serif text-brand-gold/30 leading-none select-none"
             aria-hidden="true"
           >
             &ldquo;
           </span>
 
-          <blockquote className="text-2xl md:text-3xl font-light italic text-[#1E293B] leading-relaxed relative z-10">
+          <blockquote className="text-2xl md:text-3xl font-light italic text-brand-navy-light leading-relaxed relative z-10">
             The best professional networks aren't found — they're built. This cohort has the raw ingredients. This app is the kitchen.
           </blockquote>
 

@@ -33,15 +33,15 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               isActive
-                ? 'bg-[#F59E0B]/10 text-[#F59E0B] border-l-2 border-[#F59E0B]'
-                : 'text-[#1E293B] hover:bg-gray-100'
+                ? 'bg-brand-gold-subtle text-brand-gold border-l-2 border-brand-gold'
+                : 'text-brand-navy-light hover:bg-gray-100'
             }`
           }
         >
           <Icon size={18} />
           <span>{label}</span>
           {label === 'Messages' && unreadTotal > 0 && (
-            <Badge className="ml-auto h-5 min-w-[20px] flex items-center justify-center bg-[#F59E0B] text-white text-xs px-1">
+            <Badge className="ml-auto h-5 min-w-[20px] flex items-center justify-center bg-brand-gold text-brand-navy text-xs px-1">
               {unreadTotal}
             </Badge>
           )}
@@ -65,8 +65,8 @@ export function AppShell() {
       <aside className="hidden md:flex flex-col w-60 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-30">
         {/* Brand */}
         <div className="px-6 py-5 border-b border-gray-100">
-          <span className="text-[#1E293B] font-bold text-lg tracking-tight">
-            MIT <span className="text-[#F59E0B]">Nexus</span>
+          <span className="text-brand-navy-light font-bold text-lg tracking-tight">
+            MIT <span className="text-brand-gold">Nexus</span>
           </span>
         </div>
 
@@ -79,12 +79,12 @@ export function AppShell() {
         <div className="px-4 py-4 border-t border-gray-100 flex items-center gap-3">
           <Avatar className="h-8 w-8">
             <AvatarImage src={profile?.avatar_url ?? undefined} />
-            <AvatarFallback className="bg-[#1E293B] text-white text-xs">
+            <AvatarFallback className="bg-brand-navy-light text-white text-xs">
               {initials}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-[#1E293B] truncate">
+            <p className="text-sm font-medium text-brand-navy-light truncate">
               {profile?.name ?? 'Loading…'}
             </p>
             <p className="text-xs text-gray-500 truncate">{profile?.email ?? ''}</p>
@@ -94,12 +94,12 @@ export function AppShell() {
 
       {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 inset-x-0 z-30 bg-white border-b border-gray-200 flex items-center justify-between px-4 h-14">
-        <span className="text-[#1E293B] font-bold text-lg tracking-tight">
-          MIT <span className="text-[#F59E0B]">Nexus</span>
+        <span className="text-brand-navy-light font-bold text-lg tracking-tight">
+          MIT <span className="text-brand-gold">Nexus</span>
         </span>
         <button
           onClick={() => setMobileOpen((o) => !o)}
-          className="p-2 rounded-lg text-[#1E293B] hover:bg-gray-100"
+          className="p-2 rounded-lg text-brand-navy-light hover:bg-gray-100"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -123,12 +123,12 @@ export function AppShell() {
             <div className="px-4 py-4 border-t border-gray-100 flex items-center gap-3">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={profile?.avatar_url ?? undefined} />
-                <AvatarFallback className="bg-[#1E293B] text-white text-xs">
+                <AvatarFallback className="bg-brand-navy-light text-white text-xs">
                   {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#1E293B] truncate">
+                <p className="text-sm font-medium text-brand-navy-light truncate">
                   {profile?.name ?? 'Loading…'}
                 </p>
               </div>

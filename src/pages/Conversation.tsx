@@ -74,13 +74,13 @@ export default function Conversation() {
 
         <Avatar className="h-10 w-10 shrink-0">
           <AvatarImage src={partner?.avatar_url ?? undefined} />
-          <AvatarFallback className="bg-[#1E293B] text-white text-sm">
+          <AvatarFallback className="bg-brand-navy-light text-white text-sm">
             {initials(partner?.name ?? null)}
           </AvatarFallback>
         </Avatar>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-[#1E293B] truncate">
+          <p className="text-sm font-semibold text-brand-navy-light truncate">
             {partner?.name ?? '…'}
           </p>
           {partner?.company && (
@@ -91,7 +91,7 @@ export default function Conversation() {
         {partner && (
           <Link
             to={`/profile/${partner.id}`}
-            className="text-xs font-medium text-[#F59E0B] hover:underline shrink-0"
+            className="text-xs font-medium text-brand-gold hover:underline shrink-0"
           >
             View Profile
           </Link>
@@ -129,13 +129,13 @@ export default function Conversation() {
           onKeyDown={handleKeyDown}
           placeholder="Type a message…"
           rows={1}
-          className="flex-1 resize-none rounded-xl border border-gray-200 px-3 py-2 text-sm text-[#1E293B] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F59E0B]/40 focus:border-[#F59E0B] max-h-32 overflow-y-auto"
+          className="flex-1 resize-none rounded-xl border border-gray-200 px-3 py-2 text-sm text-brand-navy-light placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-gold max-h-32 overflow-y-auto"
           style={{ lineHeight: '1.5' }}
         />
         <Button
           onClick={handleSend}
           disabled={!text.trim() || sending}
-          className="h-9 w-9 p-0 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white disabled:opacity-40 shrink-0"
+          className="h-9 w-9 p-0 rounded-xl bg-brand-gold hover:bg-brand-gold-hover text-white disabled:opacity-40 shrink-0"
         >
           <Send size={16} />
         </Button>

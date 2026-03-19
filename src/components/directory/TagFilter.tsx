@@ -32,7 +32,7 @@ export function TagFilter({ tags, selectedTags, mode, onTagToggle, onModeChange 
             className={cn(
               'text-xs px-3 py-1 rounded-full border transition-colors',
               mode === m.value
-                ? 'bg-[#1E293B] text-white border-[#1E293B]'
+                ? 'bg-brand-navy-light text-white border-[#1E293B]'
                 : 'bg-white text-gray-600 border-gray-300 hover:border-[#1E293B]'
             )}
           >
@@ -52,8 +52,8 @@ export function TagFilter({ tags, selectedTags, mode, onTagToggle, onModeChange 
               className={cn(
                 'cursor-pointer text-xs px-2.5 py-1 border transition-colors select-none',
                 active
-                  ? 'bg-[#1E293B] text-white border-[#1E293B]'
-                  : 'bg-white text-gray-600 border-gray-300 hover:border-[#1E293B] hover:text-[#1E293B]'
+                  ? 'bg-brand-navy-light text-white border-[#1E293B]'
+                  : 'bg-white text-gray-600 border-gray-300 hover:border-[#1E293B] hover:text-brand-navy-light'
               )}
             >
               {tag}

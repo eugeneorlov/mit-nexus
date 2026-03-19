@@ -44,14 +44,14 @@ export function MapFilterOverlay({ allTags, filters, onChange }: MapFilterOverla
         className={cn(
           'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium shadow-md transition-colors',
           expanded
-            ? 'bg-[#1E293B] text-white'
-            : 'bg-white text-[#1E293B] border border-gray-200 hover:border-[#1E293B]'
+            ? 'bg-brand-navy-light text-white'
+            : 'bg-white text-brand-navy-light border border-gray-200 hover:border-[#1E293B]'
         )}
       >
         <SlidersHorizontal className="h-3.5 w-3.5" />
         Filters
         {activeFilterCount > 0 && (
-          <span className="ml-0.5 bg-[#F59E0B] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
+          <span className="ml-0.5 bg-brand-gold text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
             {activeFilterCount}
           </span>
         )}
@@ -62,7 +62,7 @@ export function MapFilterOverlay({ allTags, filters, onChange }: MapFilterOverla
         <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-200 p-4 w-72 space-y-4">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-[#1E293B]">Map Filters</span>
+            <span className="text-sm font-semibold text-brand-navy-light">Map Filters</span>
             <button
               onClick={() => setExpanded(false)}
               className="text-gray-400 hover:text-gray-600"
@@ -80,7 +80,7 @@ export function MapFilterOverlay({ allTags, filters, onChange }: MapFilterOverla
                 className={cn(
                   'flex-1 text-xs px-3 py-1.5 rounded-lg border transition-colors',
                   filters.showHome
-                    ? 'bg-[#1E293B] text-white border-[#1E293B]'
+                    ? 'bg-brand-navy-light text-white border-[#1E293B]'
                     : 'bg-white text-gray-500 border-gray-300 hover:border-[#1E293B]'
                 )}
               >
@@ -91,8 +91,8 @@ export function MapFilterOverlay({ allTags, filters, onChange }: MapFilterOverla
                 className={cn(
                   'flex-1 text-xs px-3 py-1.5 rounded-lg border transition-colors',
                   filters.showTravelers
-                    ? 'bg-[#F59E0B] text-white border-[#F59E0B]'
-                    : 'bg-white text-gray-500 border-gray-300 hover:border-[#F59E0B]'
+                    ? 'bg-brand-gold text-white border-brand-gold'
+                    : 'bg-white text-gray-500 border-gray-300 hover:border-brand-gold'
                 )}
               >
                 Travelers
@@ -114,7 +114,7 @@ export function MapFilterOverlay({ allTags, filters, onChange }: MapFilterOverla
                     className={cn(
                       'text-xs px-2.5 py-1 rounded-full border transition-colors',
                       filters.tagMode === m
-                        ? 'bg-[#1E293B] text-white border-[#1E293B]'
+                        ? 'bg-brand-navy-light text-white border-[#1E293B]'
                         : 'bg-white text-gray-600 border-gray-300 hover:border-[#1E293B]'
                     )}
                   >
@@ -134,8 +134,8 @@ export function MapFilterOverlay({ allTags, filters, onChange }: MapFilterOverla
                       className={cn(
                         'cursor-pointer text-xs px-2.5 py-1 border transition-colors select-none',
                         active
-                          ? 'bg-[#1E293B] text-white border-[#1E293B]'
-                          : 'bg-white text-gray-600 border-gray-300 hover:border-[#1E293B] hover:text-[#1E293B]'
+                          ? 'bg-brand-navy-light text-white border-[#1E293B]'
+                          : 'bg-white text-gray-600 border-gray-300 hover:border-[#1E293B] hover:text-brand-navy-light'
                       )}
                     >
                       {tag}

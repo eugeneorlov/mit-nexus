@@ -135,7 +135,7 @@ export default function Directory() {
     <div className="p-6 space-y-6 max-w-6xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1E293B]">Member Directory</h1>
+        <h1 className="text-2xl font-bold text-brand-navy-light">Member Directory</h1>
         <p className="text-gray-500 mt-1 text-sm">Browse and connect with your cohort.</p>
       </div>
 
@@ -167,8 +167,8 @@ export default function Directory() {
       {/* Result count */}
       {!loading && (
         <p className="text-sm text-gray-500">
-          Showing <span className="font-semibold text-[#1E293B]">{shown}</span> of{' '}
-          <span className="font-semibold text-[#1E293B]">{total}</span> member
+          Showing <span className="font-semibold text-brand-navy-light">{shown}</span> of{' '}
+          <span className="font-semibold text-brand-navy-light">{total}</span> member
           {total !== 1 ? 's' : ''}
         </p>
       )}

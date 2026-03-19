@@ -90,7 +90,7 @@ export default function JoinPage() {
         <Card className="w-full max-w-md shadow-lg text-center">
           <CardContent className="py-10 space-y-3">
             <div className="text-4xl">🔗</div>
-            <p className="text-[#1E293B] font-semibold text-lg">Invalid invite link</p>
+            <p className="text-brand-navy-light font-semibold text-lg">Invalid invite link</p>
             <p className="text-gray-500 text-sm">
               This invite link doesn't exist or has expired.
             </p>
@@ -106,13 +106,13 @@ export default function JoinPage() {
         <Card className="w-full max-w-md shadow-lg text-center">
           <CardContent className="py-10 space-y-3">
             <div className="text-4xl">✅</div>
-            <p className="text-[#1E293B] font-semibold text-lg">Invite already used</p>
+            <p className="text-brand-navy-light font-semibold text-lg">Invite already used</p>
             <p className="text-gray-500 text-sm">
               This invite link has already been claimed.
             </p>
             <Button
               onClick={() => navigate('/')}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white"
+              className="bg-brand-gold hover:bg-brand-gold-hover text-white"
             >
               Sign in instead
             </Button>
@@ -126,7 +126,7 @@ export default function JoinPage() {
     <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center pb-2">
-          <CardTitle className="text-[#1E293B] text-3xl font-bold tracking-tight">
+          <CardTitle className="text-brand-navy-light text-3xl font-bold tracking-tight">
             MIT Nexus
           </CardTitle>
           <p className="text-gray-500 text-sm mt-1">
@@ -137,17 +137,17 @@ export default function JoinPage() {
           {submitted ? (
             <div className="text-center py-6 space-y-2">
               <div className="text-4xl">📬</div>
-              <p className="text-[#1E293B] font-semibold text-lg">Check your inbox</p>
+              <p className="text-brand-navy-light font-semibold text-lg">Check your inbox</p>
               <p className="text-gray-500 text-sm">
                 We sent a magic link to{' '}
-                <span className="font-medium text-[#1E293B]">{email}</span>. Click it to
+                <span className="font-medium text-brand-navy-light">{email}</span>. Click it to
                 join.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-1">
-                <label htmlFor="email" className="text-sm font-medium text-[#1E293B]">
+                <label htmlFor="email" className="text-sm font-medium text-brand-navy-light">
                   MIT email address
                 </label>
                 <Input
@@ -164,7 +164,7 @@ export default function JoinPage() {
               <Button
                 type="submit"
                 disabled={sending}
-                className="w-full bg-[#F59E0B] hover:bg-[#F59E0B]/90 text-white font-semibold"
+                className="w-full bg-brand-gold hover:bg-brand-gold/90 text-white font-semibold"
               >
                 {sending ? 'Sending...' : 'Get started'}
               </Button>

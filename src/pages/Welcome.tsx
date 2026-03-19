@@ -44,13 +44,13 @@ export default function Welcome() {
       <div className="w-full max-w-md space-y-4">
         <Card className="shadow-md">
           <CardHeader className="pb-3">
-            <CardTitle className="text-[#1E293B] text-2xl font-bold">
+            <CardTitle className="text-brand-navy-light text-2xl font-bold">
               Welcome to MIT Nexus!
             </CardTitle>
             {memberNumber !== null && (
               <p className="text-gray-500 text-sm mt-1">
                 You're member{' '}
-                <span className="font-semibold text-[#1E293B]">#{memberNumber}</span>.
+                <span className="font-semibold text-brand-navy-light">#{memberNumber}</span>.
                 Help unlock Coffee Roulette:
               </p>
             )}
@@ -61,7 +61,7 @@ export default function Welcome() {
             <div className="text-center">
               <Button
                 onClick={() => navigate('/dashboard')}
-                className="bg-[#F59E0B] hover:bg-[#D97706] text-white w-full"
+                className="bg-brand-gold hover:bg-brand-gold-hover text-white w-full"
               >
                 Go to Dashboard
               </Button>

@@ -108,7 +108,7 @@ function CitySearch({ id, label, placeholder, selected, onSelect, error }: CityS
 
   return (
     <div className="space-y-1.5" ref={containerRef}>
-      <Label htmlFor={id} className="text-[#1E293B] font-medium">
+      <Label htmlFor={id} className="text-brand-navy-light font-medium">
         {label}
       </Label>
       <div className="relative">
@@ -241,8 +241,8 @@ export default function StepLocation({ data, onChange, errors }: StepLocationPro
             role="switch"
             aria-checked={data.isTraveling}
             onClick={toggleTraveling}
-            className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] ${
-              data.isTraveling ? 'bg-[#F59E0B]' : 'bg-gray-200'
+            className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold ${
+              data.isTraveling ? 'bg-brand-gold' : 'bg-gray-200'
             }`}
           >
             <span
@@ -252,7 +252,7 @@ export default function StepLocation({ data, onChange, errors }: StepLocationPro
             />
           </button>
           <Label
-            className="text-sm font-medium text-[#1E293B] cursor-pointer"
+            className="text-sm font-medium text-brand-navy-light cursor-pointer"
             onClick={toggleTraveling}
           >
             Are you traveling somewhere soon?
@@ -272,7 +272,7 @@ export default function StepLocation({ data, onChange, errors }: StepLocationPro
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label htmlFor="trip-start" className="text-[#1E293B] font-medium text-sm">
+                <Label htmlFor="trip-start" className="text-brand-navy-light font-medium text-sm">
                   From
                 </Label>
                 <Input
@@ -287,7 +287,7 @@ export default function StepLocation({ data, onChange, errors }: StepLocationPro
                 )}
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="trip-end" className="text-[#1E293B] font-medium text-sm">
+                <Label htmlFor="trip-end" className="text-brand-navy-light font-medium text-sm">
                   To
                 </Label>
                 <Input
@@ -304,7 +304,7 @@ export default function StepLocation({ data, onChange, errors }: StepLocationPro
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="trip-note" className="text-[#1E293B] font-medium text-sm">
+              <Label htmlFor="trip-note" className="text-brand-navy-light font-medium text-sm">
                 Note <span className="text-gray-400 font-normal">(optional)</span>
               </Label>
               <Input

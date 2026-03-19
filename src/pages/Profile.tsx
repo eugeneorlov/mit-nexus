@@ -60,17 +60,17 @@ export default function Profile() {
       <Card>
         <CardContent className="p-6">
           <div className="flex items-start gap-5">
-            <Avatar className="h-20 w-20 flex-shrink-0 ring-2 ring-[#F59E0B] ring-offset-2">
+            <Avatar className="h-20 w-20 flex-shrink-0 ring-2 ring-brand-gold ring-offset-2">
               {profile.avatar_url ? (
                 <AvatarImage src={profile.avatar_url} alt={profile.name ?? ''} />
               ) : null}
-              <AvatarFallback className="bg-[#1E293B] text-white text-2xl">
+              <AvatarFallback className="bg-brand-navy-light text-white text-2xl">
                 {initials}
               </AvatarFallback>
             </Avatar>
 
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-[#1E293B] leading-tight">
+              <h1 className="text-2xl font-bold text-brand-navy-light leading-tight">
                 {profile.name ?? 'Unknown'}
               </h1>
 
@@ -92,14 +92,14 @@ export default function Profile() {
           <div className="flex gap-3 mt-5">
             {isOwnProfile ? (
               <Button
-                className="bg-[#1E293B] hover:bg-[#0f172a] text-white"
+                className="bg-brand-navy-light hover:bg-[#0f172a] text-white"
                 onClick={() => navigate('/profile/edit')}
               >
                 Edit Profile
               </Button>
             ) : (
               <Button
-                className="bg-[#F59E0B] hover:bg-[#D97706] text-white"
+                className="bg-brand-gold hover:bg-brand-gold-hover text-white"
                 onClick={() => navigate(`/messages/${profile.id}`)}
               >
                 Send Message
@@ -108,7 +108,7 @@ export default function Profile() {
 
             {profile.linkedin_url && (
               <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="border-[#1E293B] text-[#1E293B]">
+                <Button variant="outline" className="border-[#1E293B] text-brand-navy-light">
                   LinkedIn
                 </Button>
               </a>
@@ -124,7 +124,7 @@ export default function Profile() {
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
               About
             </h2>
-            <p className="text-[#1E293B] leading-relaxed">{profile.bio}</p>
+            <p className="text-brand-navy-light leading-relaxed">{profile.bio}</p>
           </CardContent>
         </Card>
       )}
@@ -208,7 +208,7 @@ export default function Profile() {
 
       {/* Back link */}
       <div className="text-center">
-        <Link to="/directory" className="text-sm text-gray-400 hover:text-[#1E293B] transition-colors">
+        <Link to="/directory" className="text-sm text-gray-400 hover:text-brand-navy-light transition-colors">
           ← Back to directory
         </Link>
       </div>

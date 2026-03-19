@@ -20,7 +20,7 @@ export default function HeroSection() {
         {/* Headline */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight max-w-4xl">
           Find your{' '}
-          <em className="not-italic italic text-amber-400">people</em>{' '}
+          <em className="not-italic italic text-brand-gold">people</em>{' '}
           in the cohort
         </h1>
 

@@ -22,7 +22,7 @@ export default function Landing() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0F172A' }}>
-        <div className="w-8 h-8 border-4 border-amber-400 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
