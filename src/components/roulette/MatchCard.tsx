@@ -1,205 +1,224 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Coffee } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/lib/AuthContext';
-import type { Profile, Tag } from '@/lib/types';
-
-function getISOWeekAndYear(date: Date): { week: number; year: number } {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-  const yearStart = new Date(d.getFullYear(), 0, 1);
-  const week = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
-  return { week, year: d.getFullYear() };
-}
+import { Coffee, Clock, CheckCircle, X } from 'lucide-react';
+import { useRoulette } from '@/hooks/useRoulette';
+import type { MatchWithProfile } from '@/lib/types';
 
 function getInitials(name: string | null): string {
   if (!name) return '?';
   return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
 }
 
-interface RouletteProfile extends Profile {
-  tags: Tag[];
-}
-
-interface RouletteMatch {
-  id: string;
-  user_a_id: string;
-  user_b_id: string;
-  week_number: number;
-  year: number;
-  status: string;
-  shared_tags: string[] | null;
-  created_at: string;
-  user_a: RouletteProfile;
-  user_b: RouletteProfile;
-}
-
-export function MatchCard() {
-  const { user } = useAuth();
+function ActiveMatchItem({ match, onComplete, onSkip }: {
+  match: MatchWithProfile;
+  onComplete: (id: string) => Promise<void>;
+  onSkip: (id: string) => Promise<void>;
+}) {
   const navigate = useNavigate();
-  const [match, setMatch] = useState<RouletteMatch | null>(null);
-  const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const partner = match.partner;
+  const sharedTags = match.shared_tags ?? [];
 
-  useEffect(() => {
-    if (!user) return;
-    const { week, year } = getISOWeekAndYear(new Date());
-
-    supabase
-      .from('matches')
-      .select(
-        '*, user_a:profiles!matches_user_a_id_fkey(*, tags(*)), user_b:profiles!matches_user_b_id_fkey(*, tags(*))'
-      )
-      .or(`user_a_id.eq.${user.id},user_b_id.eq.${user.id}`)
-      .eq('week_number', week)
-      .eq('year', year)
-      .single()
-      .then(({ data }) => {
-        setMatch((data as RouletteMatch) ?? null);
-        setLoading(false);
-      });
-  }, [user]);
-
-  async function updateStatus(newStatus: 'completed' | 'skipped') {
-    if (!match || updating) return;
+  async function handleComplete() {
     setUpdating(true);
-    await supabase.from('matches').update({ status: newStatus }).eq('id', match.id);
-    setMatch((prev) => (prev ? { ...prev, status: newStatus } : null));
+    await onComplete(match.id);
     setUpdating(false);
   }
 
-  if (loading) {
+  async function handleSkip() {
+    setUpdating(true);
+    await onSkip(match.id);
+    setUpdating(false);
+  }
+
+  return (
+    <div className="border border-gray-200 rounded-lg p-3 space-y-3">
+      <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">Active Match</p>
+      <div className="flex items-center gap-3">
+        <Avatar className="h-10 w-10 flex-shrink-0">
+          {partner.avatar_url && (
+            <AvatarImage src={partner.avatar_url} alt={partner.name ?? ''} />
+          )}
+          <AvatarFallback className="bg-brand-navy-light text-white text-xs">
+            {getInitials(partner.name)}
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <p className="font-semibold text-brand-navy-light text-sm">{partner.name ?? 'Unknown'}</p>
+          {(partner.role || partner.company) && (
+            <p className="text-xs text-gray-500 truncate">
+              {[partner.role, partner.company].filter(Boolean).join(', ')}
+            </p>
+          )}
+          {(partner.city || partner.country) && (
+            <p className="text-xs text-gray-400">
+              {[partner.city, partner.country].filter(Boolean).join(', ')}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {sharedTags.length > 0 && (
+        <div className="flex flex-wrap gap-1">
+          <span className="text-xs text-gray-400 mr-1">Shared:</span>
+          {sharedTags.map((tag) => (
+            <Badge
+              key={tag}
+              className="text-xs px-2 py-0 bg-brand-gold-subtle text-brand-gold border-brand-gold/30 border"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          className="bg-brand-gold hover:bg-brand-gold-hover text-white text-xs h-7"
+          onClick={() => navigate(`/messages/${partner.id}`)}
+        >
+          Send message
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          className="text-xs h-7 border-emerald-200 text-emerald-700 hover:bg-emerald-50 gap-1"
+          onClick={handleComplete}
+          disabled={updating}
+        >
+          <CheckCircle size={13} />
+          Done
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="text-xs h-7 text-gray-400 hover:text-gray-600 px-2"
+          onClick={handleSkip}
+          disabled={updating}
+          title="Skip this match"
+        >
+          <X size={13} />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export function MatchCard() {
+  const { queueStatus, activeMatches, canMatch, error, findMatch, leaveQueue, completeMatch, skipMatch } = useRoulette();
+  const [findingMatch, setFindingMatch] = useState(false);
+  const debounceRef = useRef(false);
+
+  async function handleFindMatch() {
+    if (debounceRef.current || findingMatch) return;
+    debounceRef.current = true;
+    setFindingMatch(true);
+
+    await findMatch();
+
+    setFindingMatch(false);
+    // Keep button disabled for 3 seconds (debounce)
+    setTimeout(() => {
+      debounceRef.current = false;
+    }, 3000);
+  }
+
+  if (queueStatus === 'loading') {
     return (
       <Card className="border border-gray-200">
         <CardContent className="py-8 text-center text-sm text-gray-400">
-          Loading your match…
+          Loading…
         </CardContent>
       </Card>
     );
   }
 
-  if (!match) {
-    return (
-      <Card className="border border-gray-200">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
-            <Coffee size={18} className="text-brand-gold" />
-            Coffee Roulette
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-gray-500">
-            No match this week — check back Monday!
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const otherProfile = match.user_a_id === user?.id ? match.user_b : match.user_a;
-  const sharedTags = match.shared_tags ?? [];
-  const initials = getInitials(otherProfile.name);
+  const slotCount = activeMatches.length;
+  const atCapacity = slotCount >= 2;
 
   return (
     <Card className="border border-gray-200">
       <CardHeader className="pb-3">
         <CardTitle className="text-base font-semibold text-brand-navy-light flex items-center gap-2">
           <Coffee size={18} className="text-brand-gold" />
-          Your match this week
+          Coffee Roulette
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Other person's profile */}
-        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-          <Avatar className="h-12 w-12 flex-shrink-0">
-            {otherProfile.avatar_url && (
-              <AvatarImage src={otherProfile.avatar_url} alt={otherProfile.name ?? ''} />
-            )}
-            <AvatarFallback className="bg-brand-navy-light text-white">{initials}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="font-semibold text-brand-navy-light text-sm">{otherProfile.name ?? 'Unknown'}</p>
-            {(otherProfile.role || otherProfile.company) && (
-              <p className="text-xs text-gray-500 truncate">
-                {[otherProfile.role, otherProfile.company].filter(Boolean).join(' @ ')}
-              </p>
-            )}
-            {(otherProfile.city || otherProfile.country) && (
-              <p className="text-xs text-gray-400">
-                {[otherProfile.city, otherProfile.country].filter(Boolean).join(', ')}
-              </p>
-            )}
-          </div>
-        </div>
+        {error && (
+          <p className="text-xs text-red-500 bg-red-50 px-3 py-2 rounded">{error}</p>
+        )}
 
-        {/* Shared tags */}
-        {sharedTags.length > 0 && (
-          <div>
-            <p className="text-xs font-medium text-gray-500 mb-2">Why you matched:</p>
-            <div className="flex flex-wrap gap-1.5">
-              {sharedTags.map((tag) => (
-                <Badge
-                  key={tag}
-                  className="text-xs px-2.5 py-0.5 bg-brand-gold-subtle text-brand-gold border-brand-gold/30 border"
-                >
-                  {tag}
-                </Badge>
-              ))}
+        {/* Active matches */}
+        {activeMatches.length > 0 && (
+          <div className="space-y-3">
+            {activeMatches.map((m) => (
+              <ActiveMatchItem
+                key={m.id}
+                match={m}
+                onComplete={completeMatch}
+                onSkip={skipMatch}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Queue waiting state */}
+        {queueStatus === 'queued' && (
+          <div className="flex items-start gap-2 text-sm text-gray-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-3">
+            <Clock size={15} className="text-amber-500 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="font-medium text-amber-700">You're in the queue…</p>
+              <p className="text-xs text-amber-600 mt-0.5">
+                We'll match you when someone else joins. Usually takes a few hours.
+              </p>
             </div>
           </div>
         )}
 
-        {/* Status indicator for non-pending matches */}
-        {match.status !== 'pending' && (
-          <span
-            className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full ${
-              match.status === 'completed'
-                ? 'bg-emerald-50 text-emerald-700'
-                : 'bg-gray-100 text-gray-500'
-            }`}
-          >
-            {match.status === 'completed' ? 'Completed' : 'Skipped'}
-          </span>
+        {/* Empty state description */}
+        {activeMatches.length === 0 && queueStatus === 'idle' && (
+          <p className="text-sm text-gray-500">
+            Get matched with someone whose skills complement yours.
+          </p>
         )}
 
+        {/* Slot counter */}
+        <p className="text-xs text-gray-400">
+          {slotCount}/2 match slots used
+        </p>
+
         {/* Action buttons */}
-        <div className="flex gap-2 flex-wrap">
+        {queueStatus === 'queued' ? (
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-xs h-8"
+            onClick={leaveQueue}
+          >
+            Leave queue
+          </Button>
+        ) : atCapacity ? (
+          <p className="text-xs text-gray-400">Complete or skip a match to find more.</p>
+        ) : (
           <Button
             size="sm"
             className="bg-brand-gold hover:bg-brand-gold-hover text-white text-xs h-8"
-            onClick={() => navigate(`/messages/${otherProfile.id}`)}
+            onClick={handleFindMatch}
+            disabled={!canMatch || findingMatch || debounceRef.current}
           >
-            Send a message
+            {findingMatch
+              ? 'Finding…'
+              : activeMatches.length > 0
+              ? 'Find another match'
+              : 'Find me a match'}
           </Button>
-          {match.status === 'pending' && (
-            <>
-              <Button
-                size="sm"
-                variant="outline"
-                className="text-xs h-8 border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                onClick={() => updateStatus('completed')}
-                disabled={updating}
-              >
-                Mark complete
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="text-xs h-8 text-gray-400 hover:text-gray-600"
-                onClick={() => updateStatus('skipped')}
-                disabled={updating}
-              >
-                Skip
-              </Button>
-            </>
-          )}
-        </div>
+        )}
       </CardContent>
     </Card>
   );

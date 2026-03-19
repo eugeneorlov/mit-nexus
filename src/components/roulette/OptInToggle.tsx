@@ -18,6 +18,10 @@ export function OptInToggle() {
     setOptIn(newValue);
     setUpdating(true);
     await supabase.from('profiles').update({ roulette_opt_in: newValue }).eq('id', user.id);
+    if (!newValue) {
+      // Clean up queue entry if they opt out
+      await supabase.from('match_queue').delete().eq('user_id', user.id);
+    }
     setUpdating(false);
   }
 
@@ -28,7 +32,7 @@ export function OptInToggle() {
           <div>
             <p className="text-sm font-medium text-brand-navy-light">Participate in Coffee Roulette</p>
             <p className="text-xs text-gray-500 mt-0.5">
-              Get paired with a cohort member each week for a casual coffee chat.
+              Get matched with a cohort member for a casual coffee chat.
             </p>
           </div>
           <button
