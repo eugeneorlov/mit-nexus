@@ -5,7 +5,9 @@ import { AppShell } from '@/components/layout/AppShell';
 
 import Landing from '@/pages/Landing';
 import AuthCallback from '@/pages/AuthCallback';
+import JoinPage from '@/pages/JoinPage';
 import Onboarding from '@/pages/Onboarding';
+import Welcome from '@/pages/Welcome';
 import Dashboard from '@/pages/Dashboard';
 import Directory from '@/pages/Directory';
 import MapPage from '@/pages/MapPage';
@@ -21,10 +23,12 @@ export default function App() {
         {/* Public routes */}
         <Route path="/" element={<Landing />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/join/:token" element={<JoinPage />} />
 
         {/* Auth required, not necessarily onboarded */}
         <Route element={<AuthGuard />}>
           <Route path="/onboard" element={<Onboarding />} />
+          <Route path="/welcome" element={<Welcome />} />
         </Route>
 
         {/* Auth + onboarded required — wrapped in AppShell */}

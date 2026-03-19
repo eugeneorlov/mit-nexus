@@ -70,10 +70,9 @@ export interface Trip {
 
 export interface Invite {
   id: string;
-  inviter_id: string;           // UUID ref to profiles
-  email: string;
+  inviter_id: string | null;    // UUID ref to profiles
   token: string;
-  used: boolean;
+  used_by: string | null;       // UUID ref to profiles, null if unused
   created_at: string;
 }
 

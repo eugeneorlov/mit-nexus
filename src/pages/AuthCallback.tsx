@@ -11,11 +11,11 @@ export default function AuthCallback() {
         if (event === 'SIGNED_IN' && session) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('is_onboarded')
+            .select('onboarded')
             .eq('id', session.user.id)
             .single();
 
-          if (profile?.is_onboarded) {
+          if (profile?.onboarded) {
             navigate('/dashboard');
           } else {
             navigate('/onboard');

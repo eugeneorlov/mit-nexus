@@ -180,7 +180,7 @@ export default function Onboarding() {
         if (tripError) throw tripError;
       }
 
-      navigate('/dashboard');
+      navigate('/welcome');
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Something went wrong.');
     } finally {
