@@ -187,7 +187,11 @@ export default function Onboarding() {
 
       navigate('/welcome');
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Something went wrong.');
+      const msg =
+        err instanceof Error
+          ? err.message
+          : (err as { message?: string })?.message ?? JSON.stringify(err);
+      setSubmitError(msg || 'Something went wrong.');
     } finally {
       setSubmitting(false);
     }
