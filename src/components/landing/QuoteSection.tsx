@@ -12,11 +12,11 @@ export default function QuoteSection() {
           </span>
 
           <blockquote className="text-2xl md:text-3xl font-light italic text-brand-navy-light leading-relaxed relative z-10">
-            The best professional networks aren't found — they're built. This cohort has the raw ingredients. This app is the kitchen.
+            The program gives you frameworks. The cohort gives you a network. This is where the network comes alive.
           </blockquote>
 
           <p className="text-base text-slate-500 mt-6">
-            — Built for the MIT PE CXO Cohort 2026
+            — Built for the MIT CXO 2026
           </p>
         </div>
       </div>

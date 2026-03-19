@@ -21,7 +21,7 @@ export default function HeroSection() {
             backgroundColor: 'rgba(163, 31, 52, 0.08)',
           }}
         >
-          MIT PROFESSIONAL EDUCATION · CXO COHORT 2026
+          MIT · CXO COHORT 2026
         </div>
 
         {/* Headline */}

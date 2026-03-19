@@ -15,7 +15,7 @@ const features = [
     iconColor: 'text-brand-gold',
     title: 'Coffee Roulette',
     description:
-      'Every week, get matched with someone whose skills complement yours. You teach what you know, learn what you don\'t. Serendipity, engineered.',
+      'On demand, get matched with someone whose skills complement yours. You teach what you know, learn what you don\'t. Serendipity, engineered.',
   },
   {
     icon: MessageCircle,
@@ -38,7 +38,7 @@ export default function FeaturesSection() {
             <em className="italic text-brand-gold">launchpad.</em>
           </h2>
           <p className="text-lg text-slate-600 mt-4 max-w-xl mx-auto">
-            Three features designed for how busy executives actually network.
+            Three features designed for how busy leaders actually network.
           </p>
         </div>
 

@@ -18,7 +18,7 @@ export default function MITBuildingSection() {
           <em className="italic text-brand-gold">network.</em>
         </h2>
         <p className="text-base md:text-lg text-slate-300 text-center mt-4">
-          Built on the foundation of MIT Professional Education.
+          Built for MIT CXO cohort.
         </p>
       </div>
 

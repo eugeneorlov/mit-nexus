@@ -1,8 +1,8 @@
 const stats = [
   { value: '144', label: 'Leaders' },
-  { value: '30+', label: 'Countries' },
+  { value: '44+', label: 'Countries' },
   { value: '50+', label: 'Industries' },
-  { value: '2026', label: 'Cohort' },
+  { value: '2026', label: 'CXO Cohort' },
 ];
 
 export default function StatsBar() {
