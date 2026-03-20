@@ -15,6 +15,8 @@ dist-ssr
 
 # Secrets
 .env
+*.enc.yaml
+.age/
 
 # Editor directories and files
 .vscode/*
