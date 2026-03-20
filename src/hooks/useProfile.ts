@@ -53,6 +53,7 @@ export function useProfile(userId?: string): UseProfileReturn {
 
   useEffect(() => {
     if (!userId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reset state on logout
       setProfile(null);
       setTags([]);
       setLoading(false);

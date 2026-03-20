@@ -113,11 +113,13 @@ export function MatchCard() {
   const { queueStatus, activeMatches, canMatch, error, lastMatchedAt, findMatch, leaveQueue, completeMatch, skipMatch } = useRoulette();
   const [findingMatch, setFindingMatch] = useState(false);
   const [justMatched, setJustMatched] = useState(false);
+  const [debouncing, setDebouncing] = useState(false);
   const debounceRef = useRef(false);
 
   // Show "Match found!" briefly when a Realtime match arrives
   useEffect(() => {
     if (lastMatchedAt) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setJustMatched(true);
       const timer = setTimeout(() => setJustMatched(false), 1500);
       return () => clearTimeout(timer);
@@ -127,6 +129,7 @@ export function MatchCard() {
   async function handleFindMatch() {
     if (debounceRef.current || findingMatch) return;
     debounceRef.current = true;
+    setDebouncing(true);
     setFindingMatch(true);
 
     await findMatch();
@@ -135,6 +138,7 @@ export function MatchCard() {
     // Keep button disabled for 3 seconds (debounce)
     setTimeout(() => {
       debounceRef.current = false;
+      setDebouncing(false);
     }, 3000);
   }
 
@@ -228,7 +232,7 @@ export function MatchCard() {
             size="sm"
             className="bg-brand-gold hover:bg-brand-gold-hover text-white text-xs h-8"
             onClick={handleFindMatch}
-            disabled={!canMatch || findingMatch || debounceRef.current}
+            disabled={!canMatch || findingMatch || debouncing}
           >
             {findingMatch
               ? 'Finding…'

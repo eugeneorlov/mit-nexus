@@ -68,12 +68,13 @@ export function useRoulette(): UseRouletteReturn {
     }, [user]);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetch on mount
         refresh();
     }, [refresh]);
 
     // Ref pattern to avoid stale closures in Realtime callbacks
     const refreshRef = useRef(refresh);
-    refreshRef.current = refresh;
+    useEffect(() => { refreshRef.current = refresh; }, [refresh]);
 
     const handleMatchReceived = useCallback(async () => {
         await refreshRef.current();
@@ -82,14 +83,14 @@ export function useRoulette(): UseRouletteReturn {
     }, []);
 
     const handleMatchReceivedRef = useRef(handleMatchReceived);
-    handleMatchReceivedRef.current = handleMatchReceived;
+    useEffect(() => { handleMatchReceivedRef.current = handleMatchReceived; }, [handleMatchReceived]);
 
     const handleMatchUpdated = useCallback(async () => {
         await refreshRef.current();
     }, []);
 
     const handleMatchUpdatedRef = useRef(handleMatchUpdated);
-    handleMatchUpdatedRef.current = handleMatchUpdated;
+    useEffect(() => { handleMatchUpdatedRef.current = handleMatchUpdated; }, [handleMatchUpdated]);
 
     // Subscribe to Realtime changes on the matches table
     const shouldSubscribe = queueStatus === 'queued' || activeMatches.length > 0;

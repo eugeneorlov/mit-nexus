@@ -1,21 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/AuthContext';
 
 export function OptInToggle() {
   const { user, profile } = useAuth();
-  const [optIn, setOptIn] = useState(profile?.roulette_opt_in ?? false);
+  const [localOverride, setLocalOverride] = useState<boolean | null>(null);
   const [updating, setUpdating] = useState(false);
-
-  useEffect(() => {
-    setOptIn(profile?.roulette_opt_in ?? false);
-  }, [profile?.roulette_opt_in]);
+  const optIn = localOverride ?? profile?.roulette_opt_in ?? false;
 
   async function toggle() {
     if (!user || updating) return;
     const newValue = !optIn;
-    setOptIn(newValue);
+    setLocalOverride(newValue);
     setUpdating(true);
     await supabase.from('profiles').update({ roulette_opt_in: newValue }).eq('id', user.id);
     if (!newValue) {
