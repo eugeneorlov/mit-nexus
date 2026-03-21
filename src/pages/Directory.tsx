@@ -1,36 +1,10 @@
 import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
-import { Search } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import type { ProfileWithTags, Tag } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { ProfileCard } from '@/components/directory/ProfileCard';
 import { TagFilter, type TagFilterMode } from '@/components/directory/TagFilter';
-import { Card, CardContent } from '@/components/ui/card';
-
-// ─── Skeleton card ────────────────────────────────────────────────────────────
-
-function SkeletonCard() {
-  return (
-    <Card>
-      <CardContent className="p-5">
-        <div className="flex items-start gap-4">
-          <div className="h-14 w-14 rounded-full bg-gray-200 animate-pulse flex-shrink-0" />
-          <div className="flex-1 space-y-2">
-            <div className="h-4 w-2/3 rounded bg-gray-200 animate-pulse" />
-            <div className="h-3 w-1/2 rounded bg-gray-200 animate-pulse" />
-            <div className="h-3 w-1/3 rounded bg-gray-200 animate-pulse" />
-          </div>
-        </div>
-        <div className="mt-4 flex gap-2">
-          <div className="h-5 w-16 rounded-full bg-gray-200 animate-pulse" />
-          <div className="h-5 w-20 rounded-full bg-gray-200 animate-pulse" />
-        </div>
-        <div className="mt-4 h-8 w-full rounded bg-gray-200 animate-pulse" />
-      </CardContent>
-    </Card>
-  );
-}
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function buildProfileWithTags(raw: { tags: Tag[] } & Record<string, unknown>): ProfileWithTags {
@@ -175,10 +149,8 @@ export default function Directory() {
 
       {/* Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <SkeletonCard key={i} />
-          ))}
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-8 w-8 animate-spin text-brand-navy-light" />
         </div>
       ) : filtered.length === 0 ? (
         <div className="py-16 text-center text-gray-400">
