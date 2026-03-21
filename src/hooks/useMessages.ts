@@ -5,7 +5,14 @@ import type { Message, Conversation, Profile } from '@/lib/types';
 
 // ─── useConversations ─────────────────────────────────────────────────────────
 
-export function useConversations() {
+export interface UseConversationsReturn {
+  conversations: Conversation[];
+  loading: boolean;
+  unreadTotal: number;
+  refetch: () => Promise<void>;
+}
+
+export function useConversations(): UseConversationsReturn {
   const { user } = useAuth();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -91,7 +98,13 @@ export function useConversations() {
 
 // ─── useThread ────────────────────────────────────────────────────────────────
 
-export function useThread(partnerId: string) {
+export interface UseThreadReturn {
+  messages: Message[];
+  loading: boolean;
+  sendMessage: (content: string) => Promise<void>;
+}
+
+export function useThread(partnerId: string): UseThreadReturn {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
