@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/AuthContext';
 import { SessionHeader } from '@/components/sessions/SessionHeader';
 import { ParticipantRow } from '@/components/sessions/ParticipantRow';
 import { SessionVideoBar } from '@/components/sessions/SessionVideoBar';
+import { SessionChat } from '@/components/sessions/SessionChat';
 
 export default function SessionDetail() {
   const { id } = useParams<{ id: string }>();
@@ -58,10 +59,11 @@ export default function SessionDetail() {
         />
       )}
 
-      {/* Chat placeholder - built in T7 */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center text-gray-400 min-h-[200px] flex items-center justify-center">
-        Chat coming soon
-      </div>
+      <SessionChat
+        sessionId={session.id}
+        isParticipant={session.is_participant}
+        isOpen={session.status === 'open'}
+      />
     </div>
   );
 }
