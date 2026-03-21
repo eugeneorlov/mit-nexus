@@ -107,3 +107,55 @@ export interface MatchWithProfiles extends Match {
 export interface MessageWithSender extends Message {
   sender: Profile;
 }
+
+// ─── Breakout Sessions ───────────────────────────────────────────────────────
+
+export interface Session {
+  id: string;
+  creator_id: string;
+  title: string;
+  description: string | null;
+  format: 'chat' | 'video';
+  max_participants: number;
+  status: 'open' | 'closed';
+  meeting_link: string | null;
+  scheduled_at: string | null;
+  created_at: string;
+  closed_at: string | null;
+}
+
+export interface SessionWithMeta extends Session {
+  participant_count: number;
+  is_participant: boolean;
+  creator: Profile;
+}
+
+export interface SessionParticipant {
+  id: string;
+  session_id: string;
+  user_id: string;
+  joined_at: string;
+}
+
+export interface SessionMessage {
+  id: string;
+  session_id: string;
+  sender_id: string;
+  content: string;
+  reply_to_id: string | null;
+  created_at: string;
+}
+
+export interface SessionMessageWithSender extends SessionMessage {
+  sender: Profile;
+  reply_to: (SessionMessage & { sender: Profile }) | null;
+}
+
+export interface CreateSessionInput {
+  title: string;
+  description?: string;
+  format: 'chat' | 'video';
+  max_participants?: number;
+  meeting_link?: string;
+  scheduled_at?: string;
+}
