@@ -67,7 +67,7 @@ export function AppShell() {
       <aside className="hidden md:flex flex-col w-60 bg-brand-navy-light border-r border-brand-navy fixed inset-y-0 left-0 z-30">
         {/* Brand */}
         <div className="px-6 py-5 border-b border-white/10">
-          <span className="text-white font-bold text-lg tracking-tight">
+          <span className="text-white font-bold text-lg tracking-tight" title="MIT Nexus - Cohort Networking Platform">
             MIT <span className="text-brand-gold">Nexus</span>
           </span>
         </div>
@@ -103,7 +103,7 @@ export function AppShell() {
 
       {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 inset-x-0 z-30 bg-brand-navy-light border-b border-brand-navy flex items-center justify-between px-4 h-14">
-        <span className="text-white font-bold text-lg tracking-tight">
+        <span className="text-white font-bold text-lg tracking-tight" title="MIT Nexus - Cohort Networking Platform">
           MIT <span className="text-brand-gold">Nexus</span>
         </span>
         <button
