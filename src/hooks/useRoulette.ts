@@ -149,6 +149,13 @@ export function useRoulette(): UseRouletteReturn {
 
     const findMatch = useCallback(async (): Promise<MatchResult> => {
         if (!user) return { status: 'ERROR', error: 'Not authenticated' };
+
+        if (activeMatches.length >= 2) {
+            const msg = 'You already have 2 active matches. Complete or skip one before finding another.';
+            setError(msg);
+            return { status: 'ERROR', error: msg };
+        }
+
         setError(null);
 
         const { data, error: fnError } = await supabase.functions.invoke('generate-matches');
@@ -175,7 +182,7 @@ export function useRoulette(): UseRouletteReturn {
         }
 
         return { status: 'ERROR', error: 'Unexpected response' };
-    }, [user, refresh]);
+    }, [user, refresh, activeMatches]);
 
     const leaveQueue = useCallback(async () => {
         if (!user) return;
