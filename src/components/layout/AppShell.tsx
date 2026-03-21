@@ -15,10 +15,10 @@ import { useAuth } from '@/lib/AuthContext';
 import { useConversations } from '@/hooks/useMessages';
 
 const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/directory', label: 'Directory', icon: Users },
-  { to: '/map', label: 'Map', icon: Map },
-  { to: '/messages', label: 'Messages', icon: MessageSquare },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, ariaLabel: 'Navigate to Dashboard' },
+  { to: '/directory', label: 'Directory', icon: Users, ariaLabel: 'Navigate to Directory' },
+  { to: '/map', label: 'Map', icon: Map, ariaLabel: 'Navigate to Map' },
+  { to: '/messages', label: 'Messages', icon: MessageSquare, ariaLabel: 'Navigate to Messages' },
 ];
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
@@ -26,11 +26,12 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <>
-      {navItems.map(({ to, label, icon: Icon }) => (
+      {navItems.map(({ to, label, icon: Icon, ariaLabel }) => (
         <NavLink
           key={to}
           to={to}
           onClick={onNavigate}
+          aria-label={ariaLabel}
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               isActive
