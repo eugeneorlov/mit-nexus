@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, MessageSquare, Minus, Plus, Video } from 'lucide-react';
 import { useSessions } from '@/hooks/useSessions';
+import { toast } from '@/lib/toast';
 import type { CreateSessionInput } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,6 @@ import { MeetingLinkInput } from './MeetingLinkInput';
 interface FormErrors {
   title?: string;
   meeting_link?: string;
-  submit?: string;
 }
 
 export function CreateSessionForm() {
@@ -43,6 +43,18 @@ export function CreateSessionForm() {
     return Object.keys(next).length === 0;
   }
 
+  function handleMeetingLinkChange(value: string) {
+    setMeetingLink(value);
+    if (value && !value.startsWith('https://')) {
+      setErrors((prev) => ({ ...prev, meeting_link: 'Meeting link must start with https://' }));
+    } else {
+      setErrors((prev) => {
+        const { meeting_link: _, ...rest } = prev;
+        return rest;
+      });
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
@@ -64,9 +76,8 @@ export function CreateSessionForm() {
       const session = await createSession(input);
       navigate(`/sessions/${session.id}`);
     } catch (err) {
-      setErrors({
-        submit: err instanceof Error ? err.message : 'Failed to create session',
-      });
+      const message = err instanceof Error ? err.message : 'Failed to create session';
+      toast(message);
       setSubmitting(false);
     }
   }
@@ -135,7 +146,7 @@ export function CreateSessionForm() {
         <>
           <MeetingLinkInput
             value={meetingLink}
-            onChange={setMeetingLink}
+            onChange={handleMeetingLinkChange}
             error={errors.meeting_link}
           />
 
@@ -184,11 +195,6 @@ export function CreateSessionForm() {
           </Button>
         </div>
       </div>
-
-      {/* Submit error */}
-      {errors.submit && (
-        <p className="text-sm text-red-500">{errors.submit}</p>
-      )}
 
       {/* Submit */}
       <Button

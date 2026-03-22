@@ -1,25 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Video, MessageSquare, Users, Calendar } from 'lucide-react';
+import { Video, MessageSquare, Users, Calendar, Loader2 } from 'lucide-react';
 import type { SessionWithMeta } from '@/lib/types';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/AuthContext';
+import { formatTimestamp } from '@/lib/formatTimestamp';
+import { toast } from '@/lib/toast';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 interface SessionCardProps {
   session: SessionWithMeta;
-}
-
-function formatScheduledTime(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
 }
 
 function getInitials(name: string | null): string {
@@ -36,7 +28,6 @@ export function SessionCard({ session }: SessionCardProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [joining, setJoining] = useState(false);
-  const [joinError, setJoinError] = useState<string | null>(null);
 
   const isClosed = session.status === 'closed';
   const isFull = session.participant_count >= session.max_participants;
@@ -44,7 +35,6 @@ export function SessionCard({ session }: SessionCardProps) {
   async function handleJoin() {
     if (!user || joining) return;
     setJoining(true);
-    setJoinError(null);
 
     try {
       const { count, error: countError } = await supabase
@@ -55,8 +45,7 @@ export function SessionCard({ session }: SessionCardProps) {
       if (countError) throw countError;
 
       if (count !== null && count >= session.max_participants) {
-        setJoinError('Session is full');
-        setTimeout(() => setJoinError(null), 2000);
+        toast('Session is full');
         return;
       }
 
@@ -68,10 +57,7 @@ export function SessionCard({ session }: SessionCardProps) {
 
       navigate(`/sessions/${session.id}`);
     } catch {
-      if (!joinError) {
-        setJoinError('Failed to join');
-        setTimeout(() => setJoinError(null), 2000);
-      }
+      toast('Failed to join session');
     } finally {
       setJoining(false);
     }
@@ -92,10 +78,10 @@ export function SessionCard({ session }: SessionCardProps) {
     actionLabel = 'Open';
     actionVariant = 'default';
     actionLink = `/sessions/${session.id}`;
-  } else if (isFull || joinError) {
-    actionLabel = joinError ?? 'Full';
+  } else if (isFull) {
+    actionLabel = 'Full';
     actionVariant = 'secondary';
-    actionDisabled = !joinError;
+    actionDisabled = true;
   } else {
     actionLabel = 'Join';
     actionVariant = 'outline';
@@ -149,7 +135,7 @@ export function SessionCard({ session }: SessionCardProps) {
       {session.format === 'video' && session.scheduled_at && (
         <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-3">
           <Calendar className="h-4 w-4" />
-          <span>{formatScheduledTime(session.scheduled_at)}</span>
+          <span>{formatTimestamp(session.scheduled_at)}</span>
         </div>
       )}
 
@@ -196,7 +182,11 @@ export function SessionCard({ session }: SessionCardProps) {
                 : ''
             }
           >
-            {actionLabel}
+            {joining ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              actionLabel
+            )}
           </Button>
         )}
       </div>
