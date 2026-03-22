@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Video, MessageSquare, Users, Calendar } from 'lucide-react';
 import type { SessionWithMeta } from '@/lib/types';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/AuthContext';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -30,14 +33,56 @@ function getInitials(name: string | null): string {
 }
 
 export function SessionCard({ session }: SessionCardProps) {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [joining, setJoining] = useState(false);
+  const [joinError, setJoinError] = useState<string | null>(null);
+
   const isClosed = session.status === 'closed';
   const isFull = session.participant_count >= session.max_participants;
+
+  async function handleJoin() {
+    if (!user || joining) return;
+    setJoining(true);
+    setJoinError(null);
+
+    try {
+      const { count, error: countError } = await supabase
+        .from('session_participants')
+        .select('id', { count: 'exact', head: true })
+        .eq('session_id', session.id);
+
+      if (countError) throw countError;
+
+      if (count !== null && count >= session.max_participants) {
+        setJoinError('Session is full');
+        setTimeout(() => setJoinError(null), 2000);
+        return;
+      }
+
+      const { error: insertError } = await supabase
+        .from('session_participants')
+        .insert({ session_id: session.id, user_id: user.id });
+
+      if (insertError) throw insertError;
+
+      navigate(`/sessions/${session.id}`);
+    } catch {
+      if (!joinError) {
+        setJoinError('Failed to join');
+        setTimeout(() => setJoinError(null), 2000);
+      }
+    } finally {
+      setJoining(false);
+    }
+  }
 
   // Determine action button
   let actionLabel: string;
   let actionVariant: 'default' | 'outline' | 'secondary';
   let actionDisabled = false;
   let actionLink: string | null = null;
+  let actionOnClick: (() => void) | null = null;
 
   if (isClosed) {
     actionLabel = 'View Archive';
@@ -47,14 +92,15 @@ export function SessionCard({ session }: SessionCardProps) {
     actionLabel = 'Open';
     actionVariant = 'default';
     actionLink = `/sessions/${session.id}`;
-  } else if (isFull) {
-    actionLabel = 'Full';
+  } else if (isFull || joinError) {
+    actionLabel = joinError ?? 'Full';
     actionVariant = 'secondary';
-    actionDisabled = true;
+    actionDisabled = !joinError;
   } else {
     actionLabel = 'Join';
     actionVariant = 'outline';
-    actionLink = `/sessions/${session.id}`;
+    actionOnClick = handleJoin;
+    actionDisabled = joining;
   }
 
   return (
@@ -139,7 +185,17 @@ export function SessionCard({ session }: SessionCardProps) {
             <Link to={actionLink}>{actionLabel}</Link>
           </Button>
         ) : (
-          <Button size="sm" variant={actionVariant} disabled={actionDisabled}>
+          <Button
+            size="sm"
+            variant={actionVariant}
+            disabled={actionDisabled}
+            onClick={actionOnClick ?? undefined}
+            className={
+              actionOnClick
+                ? 'border-brand-gold text-brand-gold hover:bg-brand-gold/10'
+                : ''
+            }
+          >
             {actionLabel}
           </Button>
         )}

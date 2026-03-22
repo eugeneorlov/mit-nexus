@@ -107,6 +107,10 @@ export function SessionHeader({ session, isCreator, onJoin, onLeave, onClose }: 
             </Button>
           )}
 
+          {!session.is_participant && isFull && (
+            <Badge variant="secondary">Full</Badge>
+          )}
+
           {session.is_participant && !isCreator && (
             <Button
               size="sm"
@@ -133,7 +137,7 @@ export function SessionHeader({ session, isCreator, onJoin, onLeave, onClose }: 
                 <DialogHeader>
                   <DialogTitle>Close this session?</DialogTitle>
                   <DialogDescription>
-                    This will end the session for all participants. This action cannot be undone.
+                    Chat becomes read-only. This action cannot be undone.
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

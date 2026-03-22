@@ -1,4 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useSession } from '@/hooks/useSession';
 import { useAuth } from '@/lib/AuthContext';
@@ -10,7 +11,13 @@ import { SessionChat } from '@/components/sessions/SessionChat';
 export default function SessionDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { session, participants, loading, error, joinSession, leaveSession, closeSession, updateMeetingLink } = useSession(id);
+
+  const handleLeave = useCallback(async () => {
+    await leaveSession();
+    navigate('/sessions');
+  }, [leaveSession, navigate]);
 
   if (loading) {
     return (
@@ -45,7 +52,7 @@ export default function SessionDetail() {
         session={session}
         isCreator={isCreator}
         onJoin={joinSession}
-        onLeave={leaveSession}
+        onLeave={handleLeave}
         onClose={closeSession}
       />
 
