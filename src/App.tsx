@@ -15,6 +15,9 @@ import Profile from '@/pages/Profile';
 import ProfileEdit from '@/pages/ProfileEdit';
 import Messages from '@/pages/Messages';
 import Conversation from '@/pages/Conversation';
+import Sessions from '@/pages/Sessions';
+import SessionNew from '@/pages/SessionNew';
+import SessionDetail from '@/pages/SessionDetail';
 
 export default function App() {
   return (
@@ -41,6 +44,9 @@ export default function App() {
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/messages/:userId" element={<Conversation />} />
+            <Route path="/sessions" element={<Sessions />} />
+            <Route path="/sessions/new" element={<SessionNew />} />
+            <Route path="/sessions/:id" element={<SessionDetail />} />
           </Route>
         </Route>
       </Routes>

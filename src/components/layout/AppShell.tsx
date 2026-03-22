@@ -17,8 +17,9 @@ import { useConversations } from '@/hooks/useMessages';
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, ariaLabel: 'Navigate to Dashboard' },
   { to: '/directory', label: 'Directory', icon: Users, ariaLabel: 'Navigate to Directory' },
-  { to: '/map', label: 'Map', icon: Map, ariaLabel: 'Navigate to Map' },
   { to: '/messages', label: 'Messages', icon: MessageSquare, ariaLabel: 'Navigate to Messages' },
+  { to: '/sessions', label: 'Sessions', icon: Users, ariaLabel: 'Navigate to Sessions' },
+  { to: '/map', label: 'Map', icon: Map, ariaLabel: 'Navigate to Map' },
 ];
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
